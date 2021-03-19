@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lkop.qr_scanner.ui.fragments.FragmentCreateClassroom"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="#eff0f1"
+    android:id="@+id/fragment_create_classroom">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_classroom_textview_text"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:textColor="#000000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Μάθημα: "
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:textColor="#000000"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF">
+
+                <Spinner
+                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:id="@+id/spinner_subjects"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Τύπος: "
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:layout_gravity="center_vertical"
+                android:textColor="#000000"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF">
+
+                <Spinner
+                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:id="@+id/spinner_types"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/border_up">
+
+        <Button
+            android:id="@+id/create_classroom_2"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/create_classroom_btn_text"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textAllCaps="true"
+            android:background="#4cae4c"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

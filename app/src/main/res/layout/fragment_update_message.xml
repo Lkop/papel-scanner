@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lkop.qr_scanner.ui.fragments.FragmentUpdateMessage"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="#FFFFFF"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/update_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:text="asaddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsd"
+            android:textSize="20sp"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/update_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="aaaaaaaaaaaaaaaaa"
+            android:textSize="20sp"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

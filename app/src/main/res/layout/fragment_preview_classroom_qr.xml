@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lkop.qr_scanner.ui.fragments.FragmentPreviewClassroomQR"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:background="#B3808080">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#FFFFFF"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/image_view_preview_qr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/preview_loading_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Φόρτωση..."
+            android:textColor="#000000"/>
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Έλεγχος"
+            android:textAllCaps="true"
+            android:textAlignment="inherit"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

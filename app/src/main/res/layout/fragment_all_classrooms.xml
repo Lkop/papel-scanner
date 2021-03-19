@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lkop.qr_scanner.ui.fragments.FragmentAllClassrooms"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="#eff0f1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Όλα τα τμήματα"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:textColor="#000000"/>
+
+        <ListView
+            android:id="@+id/listview_all_classrooms"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent" />
+
+    </LinearLayout>
+
+</RelativeLayout>

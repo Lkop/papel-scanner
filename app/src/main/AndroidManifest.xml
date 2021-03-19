@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.lkop.qr_scanner">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:label="PAPEL ID Scanner"
+        android:icon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:background="@android:color/background_light">
+
+
+<!--        <activity android:name=".ActivitySplashScreen">-->
+        <activity android:name="com.lkop.qr_scanner.ui.activities.ActivityMainMenu">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+<!--        <receiver android:name=".ReceiverCheckConnection" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+
+        <service
+            android:enabled="true"
+            android:name="com.lkop.qr_scanner.services.ServiceUpdater"
+            android:label="Updater">
+        </service>
+
+        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.ActivityClassroom"/>
+        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.Search_Activity"/>
+        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.ScanOCR_Activity"/>
+        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.ActivityMatchPassId"/>
+        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.CustomScannerActivity"/>
+
+    </application>
+
+</manifest>
