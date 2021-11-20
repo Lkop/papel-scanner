@@ -24,23 +24,23 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //activities and fragments
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.fragment:fragment:1.2.2'
+    //Activities and Fragments
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.fragment:fragment:1.3.6'
 
-    //shared prefernces
-    implementation 'androidx.preference:preference:1.1.0'
+    //SharedPreferences
+    implementation 'androidx.preference:preference:1.1.1'
 
-    //layout
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    //Layout
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
@@ -58,11 +58,11 @@ dependencies {
     //implementation 'com.google.android.gms:play-services-vision:19.0.0'
 
     //moshi - json parser
-    implementation 'com.squareup.moshi:moshi:1.9.2'
+    implementation 'com.squareup.moshi:moshi:1.12.0'
 
     //okhttp
-    implementation 'com.squareup.okhttp3:okhttp:4.3.1'
-    //implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    //implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -74,10 +74,11 @@ dependencies {
 //    )
 
     //jackson parser
+    def jackson_version = "2.13.0"
     implementation (
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.2'],
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.2'],
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.2']
+            [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: "${jackson_version}"],
+            [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: "${jackson_version}"],
+            [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "${jackson_version}"]
     )
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
