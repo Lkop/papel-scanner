@@ -20,7 +20,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Search_Activity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     //vars
     String name, lastname, new_QR, class_id, subject_id;
@@ -50,7 +50,7 @@ public class Search_Activity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        Intent intent_main = new Intent(getApplicationContext(), ActivityMainMenu.class);
+        Intent intent_main = new Intent(getApplicationContext(), MainMenuActivity.class);
         startActivity(intent_main);
         finish();
     }
@@ -62,7 +62,7 @@ public class Search_Activity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(Search_Activity.this);
+            pDialog = new ProgressDialog(SearchActivity.this);
             pDialog.setMessage("Connecting ... ");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -122,7 +122,7 @@ public class Search_Activity extends AppCompatActivity {
 
             if(sb.length()==2) // []
             {
-                Toast toast = Toast.makeText(Search_Activity.this, "Failed to connect", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(SearchActivity.this, "Failed to connect", Toast.LENGTH_LONG);
                 toast.show();
                 class_name_screen = (TextView)findViewById(R.id.class_name);
 
@@ -165,7 +165,7 @@ public class Search_Activity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(Search_Activity.this);
+            pDialog = new ProgressDialog(SearchActivity.this);
             pDialog.setMessage("Connecting ... ");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);

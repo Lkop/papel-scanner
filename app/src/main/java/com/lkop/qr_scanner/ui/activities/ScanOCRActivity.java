@@ -23,7 +23,7 @@ import com.google.android.gms.vision.text.TextRecognizer;
 import java.io.IOException;
 
 
-public class ScanOCR_Activity extends AppCompatActivity {
+public class ScanOCRActivity extends AppCompatActivity {
 
     private Context context = this;
     SurfaceView mCameraView;
@@ -94,7 +94,7 @@ public class ScanOCR_Activity extends AppCompatActivity {
                         if (ActivityCompat.checkSelfPermission(getApplicationContext(),
                                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-                            ActivityCompat.requestPermissions(ScanOCR_Activity.this,
+                            ActivityCompat.requestPermissions(ScanOCRActivity.this,
                                     new String[]{Manifest.permission.CAMERA},
                                     requestPermissionID);
                             return;
@@ -183,7 +183,7 @@ public class ScanOCR_Activity extends AppCompatActivity {
 
                                                 key = true;
 
-                                                Intent intent = new Intent(getApplicationContext(), ActivityClassroom.class);
+                                                Intent intent = new Intent(getApplicationContext(), ClassroomActivity.class);
 
                                                 //not opening the activity twice
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

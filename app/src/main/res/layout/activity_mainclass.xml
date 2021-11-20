@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
     android:orientation="vertical"
-    tools:context="com.lkop.qr_scanner.ui.activities.ActivityMainMenu">
+    tools:context="com.lkop.qr_scanner.ui.activities.MainMenuActivity">
 
     <RelativeLayout
         android:id="@+id/header"

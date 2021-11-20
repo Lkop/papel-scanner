@@ -26,17 +26,18 @@ import com.lkop.qr_scanner.network.AsyncResults;
 import com.lkop.qr_scanner.network.AsyncSearchClassroom;
 import com.lkop.qr_scanner.network.AsyncVerifyVersion;
 import com.lkop.qr_scanner.receivers.ConnectionChangeTrigger;
-import com.lkop.qr_scanner.ui.fragments.FragmentLogin;
+import com.lkop.qr_scanner.ui.fragments.LoginFragment;
 import com.example.lkop.qr_scanner.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.lkop.qr_scanner.ui.fragments.UpdateMessageFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class ActivityMainMenu extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity {
 
     //static final String VERSION_TOKEN ="";
     static boolean IS_UPDATED = true;
@@ -57,7 +58,7 @@ public class ActivityMainMenu extends AppCompatActivity {
     private AsyncVerifyVersion checkForUpdates = null;
 
     //Fragments
-    private com.lkop.qr_scanner.ui.fragments.FragmentUpdateMessage FragmentUpdateMessage;
+    private UpdateMessageFragment UpdateMessageFragment;
     int a=1;
 
     @Override
@@ -114,7 +115,7 @@ public class ActivityMainMenu extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (getSavedClassroom() != "") {
-            Intent intent = new Intent(context, ActivityClassroom.class);
+            Intent intent = new Intent(context, ClassroomActivity.class);
             startActivity(intent);
             finish();
         }
@@ -147,7 +148,7 @@ public class ActivityMainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                FragmentLogin FragmentLogin = new FragmentLogin();
+                LoginFragment FragmentLogin = new LoginFragment();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("next_fragment_name", "FragmentAllClassrooms");
@@ -167,7 +168,7 @@ public class ActivityMainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                FragmentLogin FragmentLogin = new FragmentLogin();
+                LoginFragment FragmentLogin = new LoginFragment();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("next_fragment_name", "FragmentCreateClassroom");
@@ -199,7 +200,7 @@ public class ActivityMainMenu extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //Handle back requests from activity's child fragment
-        if((FragmentUpdateMessage!=null && FragmentUpdateMessage.isVisible()) )
+        if((UpdateMessageFragment !=null && UpdateMessageFragment.isVisible()) )
             finish();
         else
             super.onBackPressed();
@@ -247,7 +248,7 @@ public class ActivityMainMenu extends AppCompatActivity {
 
     public void isOnline() {
 
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(ActivityMainMenu.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(MainMenuActivity.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
 
         //AsyncVerifyVersion checkForUpdates = null;
@@ -336,7 +337,7 @@ public class ActivityMainMenu extends AppCompatActivity {
                                 editor.putInt("classroom_timer", 10*60*1000);
                                 editor.apply();
 
-                                Intent intent = new Intent(context, ActivityClassroom.class);
+                                Intent intent = new Intent(context, ClassroomActivity.class);
                                 context.startActivity(intent);
 
                                 Activity ac = (Activity) context;
@@ -349,7 +350,7 @@ public class ActivityMainMenu extends AppCompatActivity {
 
                     final String pass_id = result.getContents();
 
-                    Intent intent = new Intent(context, ScanOCR_Activity.class);
+                    Intent intent = new Intent(context, ScanOCRActivity.class);
                     intent.putExtra("pass_id_arg", pass_id);
                     startActivity(intent);
 

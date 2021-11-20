@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.lkop.qr_scanner.R;
 
-public class ActivityMatchPassId extends AppCompatActivity {
+public class MatchPassIdActivity extends AppCompatActivity {
 
     private String pass_id;
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.lkop.qr_scanner.network.AsyncPostDataToURL;
 import com.lkop.qr_scanner.network.AsyncResults;
-import com.lkop.qr_scanner.constants.DefineURLS;
+import com.lkop.qr_scanner.constants.URLS;
 import com.example.lkop.qr_scanner.R;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FragmentLogin extends Fragment {
+public class LoginFragment extends Fragment {
 
     private Button login_btn;
     private EditText email_editText, password_editText;
@@ -62,7 +62,6 @@ public class FragmentLogin extends Fragment {
                 String password_string = password_editText.getText().toString();
 
                 if(email_string.isEmpty() || password_string.isEmpty()){
-
                     showErrorMessage("Γράψτε Email και Κωδικό");
                 }else{
 
@@ -130,7 +129,7 @@ public class FragmentLogin extends Fragment {
 //                            }
 //                        });
 
-                    new AsyncPostDataToURL(DefineURLS.UOP_VERIFY_USER, user_data).run(
+                    new AsyncPostDataToURL(URLS.UOP_VERIFY_USER, user_data).run(
                         new AsyncResults() {
                             @Override
                             public void taskResultsObject(Object results) {
@@ -160,9 +159,9 @@ public class FragmentLogin extends Fragment {
                                         Fragment NextFragment = null;
 
                                         if(next_fragment_name.equals("FragmentCreateClassroom")){
-                                            NextFragment = new FragmentCreateClassroom();
+                                            NextFragment = new CreateClassroomFragment();
                                         }else if(next_fragment_name.equals("FragmentAllClassrooms")){
-                                            NextFragment = new FragmentAllClassrooms();
+                                            NextFragment = new AllClassroomsFragment();
                                         }
 
                                         //open fragment (code run in background)

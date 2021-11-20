@@ -19,7 +19,7 @@ import com.lkop.qr_scanner.services.ServiceUpdater;
 
 import static com.lkop.qr_scanner.services.ServiceUpdater.SERVICE_UPDATER_SEMAPHORE;
 
-public class FragmentUpdateMessage extends Fragment {
+public class UpdateMessageFragment extends Fragment {
 
     private TextView update_message_textview, update_url;
 

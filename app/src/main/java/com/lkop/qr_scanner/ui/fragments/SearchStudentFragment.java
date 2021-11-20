@@ -16,12 +16,12 @@ import androidx.fragment.app.Fragment;
 import com.lkop.qr_scanner.network.AsyncAddToClassroom;
 import com.lkop.qr_scanner.network.AsyncResults;
 import com.example.lkop.qr_scanner.R;
-import com.lkop.qr_scanner.ui.activities.ActivityClassroom;
+import com.lkop.qr_scanner.ui.activities.ClassroomActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class FragmentSearchStudent extends Fragment {
+public class SearchStudentFragment extends Fragment {
 
     private String am, classroom_id, classroom_token;
     private SharedPreferences preferences;
@@ -90,7 +90,7 @@ public class FragmentSearchStudent extends Fragment {
                                 //if(getActivity() instanceof ActivityClassroom){
 
                                     //Need of typecast becuse onResume() is protected method
-                                    ((ActivityClassroom)getActivity()).onResume();
+                                    ((ClassroomActivity)getActivity()).onResume();
                                 //}
 
                                 getActivity().onBackPressed();

@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.lkop.qr_scanner.R;
 
-public class FragmentMatchPassId extends Fragment {
+public class MatchPassIdFragment extends Fragment {
 
     private String pass_id;
 

@@ -4,57 +4,55 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.lkop.qr_scanner.network.AsyncGetJSONFromURL;
 import com.lkop.qr_scanner.network.AsyncResults;
 import com.lkop.qr_scanner.network.AsyncSearchClassroom;
 import com.lkop.qr_scanner.models.ClassroomInfo;
 import com.lkop.qr_scanner.adapters.CustomListAdapter;
-import com.lkop.qr_scanner.constants.DefineURLS;
+import com.lkop.qr_scanner.constants.URLS;
 import com.example.lkop.qr_scanner.R;
-import com.lkop.qr_scanner.ui.activities.ActivityClassroom;
-
+import com.lkop.qr_scanner.ui.activities.ClassroomActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
+public class AllClassroomsFragment extends Fragment implements AdapterView.OnItemClickListener{
 
-public class FragmentAllClassrooms extends Fragment implements AdapterView.OnItemClickListener{
-
+    private View view;
     private ListView list_view;
-    private ArrayList<ClassroomInfo> list_classrooms;
+    private ArrayList<ClassroomInfo> classrooms_list;
     private CustomListAdapter adapter;
-
     private boolean list_clicked = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        list_classrooms = new ArrayList<>();
+        classrooms_list = new ArrayList<>();
 
-        new AsyncGetJSONFromURL(DefineURLS.GET_CLASSROOMS, null).run(new AsyncResults() {
+        new AsyncGetJSONFromURL(URLS.GET_CLASSROOMS, null).run(new AsyncResults() {
             @Override
             public void taskResultsObject(Object results) {
+                JSONArray json_array = null;
+                try {
+                    json_array = new JSONArray((String)results);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                JSONArray jsonArray = (JSONArray)results;
-
-                for (int i = 0; i < jsonArray.length(); i++) {
+                for (int i = 0; i < json_array.length(); i++) {
                     try {
-                        JSONObject obj = jsonArray.getJSONObject(i);
-                        list_classrooms.add(new ClassroomInfo(obj.getString("id"),
+                        JSONObject obj = json_array.getJSONObject(i);
+                        classrooms_list.add(new ClassroomInfo(obj.getString("id"),
                                                               obj.getString("classroom_token"),
                                                               obj.getString("subject_name").toUpperCase(),
                                                               obj.getString("subject_professor").toUpperCase(),
@@ -83,14 +81,14 @@ public class FragmentAllClassrooms extends Fragment implements AdapterView.OnIte
 //            AsyncGetJSONFromURL.getThread().join();
 //        }catch (InterruptedException e){}
 
-        View view = inflater.inflate(R.layout.fragment_all_classrooms, container, false);
+        view = inflater.inflate(R.layout.all_classrooms_fragment, container, false);
 
         list_view = (ListView)view.findViewById(R.id.listview_all_classrooms);
 
         list_view.setOnItemClickListener(this);
 
         //adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, R.id.custom_list_item, list_classrooms);
-        adapter = new CustomListAdapter(list_classrooms, getContext());
+        adapter = new CustomListAdapter(classrooms_list, getContext());
 
         list_view.setAdapter(adapter);
 
@@ -99,28 +97,19 @@ public class FragmentAllClassrooms extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
         if(!list_clicked) {
-
             //Clicke only one time
             list_clicked = true;
 
-            final ClassroomInfo classroom_info = list_classrooms.get(position);
+            final ClassroomInfo classroom_info = classrooms_list.get(position);
 
             new AsyncSearchClassroom(classroom_info.getClassroomToken(), new AsyncResults() {
-
                 @Override
                 public void taskResultsObject(Object results) {
-
                     String results_str = (String) results;
-
                     if (results_str.length() <= 2) {
-
                         Toast.makeText(getContext(), "Δεν βρέθηκε το τμήμα.", Toast.LENGTH_SHORT).show();
-
-                    } else {
-
+                    }else{
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                         SharedPreferences.Editor editor = preferences.edit();
 
@@ -131,7 +120,7 @@ public class FragmentAllClassrooms extends Fragment implements AdapterView.OnIte
                         editor.putInt("classroom_timer", 10 * 60 * 1000);
                         editor.apply();
 
-                        Intent intent = new Intent(getContext(), ActivityClassroom.class);
+                        Intent intent = new Intent(getContext(), ClassroomActivity.class);
                         getContext().startActivity(intent);
 
                         Activity ac = (Activity) getContext();
@@ -141,10 +130,5 @@ public class FragmentAllClassrooms extends Fragment implements AdapterView.OnIte
             }).execute();
 
         }
-//        Toast.makeText(getActivity(), classroom_info.getClassroomToken(), Toast.LENGTH_SHORT).show();
-
-//        // TODO Auto-generated method stub
-//        String value = parent.getItemAtPosition(position).toString();
-//        Toast.makeText(getActivity(), value, Toast.LENGTH_SHORT).show();
     }
 }

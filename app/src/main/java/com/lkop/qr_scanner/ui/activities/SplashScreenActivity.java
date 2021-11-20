@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.example.lkop.qr_scanner.R;
 
 
-public class ActivitySplashScreen extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

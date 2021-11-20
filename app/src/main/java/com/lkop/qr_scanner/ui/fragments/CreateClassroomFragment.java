@@ -23,9 +23,9 @@ import com.lkop.qr_scanner.network.AsyncGetJSONFromURL;
 import com.lkop.qr_scanner.network.AsyncPostDataToURL;
 import com.lkop.qr_scanner.network.AsyncResults;
 import com.lkop.qr_scanner.network.AsyncSearchClassroom;
-import com.lkop.qr_scanner.constants.DefineURLS;
+import com.lkop.qr_scanner.constants.URLS;
 import com.example.lkop.qr_scanner.R;
-import com.lkop.qr_scanner.ui.activities.ActivityClassroom;
+import com.lkop.qr_scanner.ui.activities.ClassroomActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class FragmentCreateClassroom extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class CreateClassroomFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private Button create_classroom_btn;
 
@@ -58,7 +58,7 @@ public class FragmentCreateClassroom extends Fragment implements AdapterView.OnI
         list_subjects = new ArrayList<>();
         list_subjects.add("Επιλέξτε Μάθημα");
 
-        new AsyncGetJSONFromURL(DefineURLS.GET_SUBJECTS, null).run(new AsyncResults() {
+        new AsyncGetJSONFromURL(URLS.GET_SUBJECTS, null).run(new AsyncResults() {
             @Override
             public void taskResultsObject(Object results) {
 
@@ -84,7 +84,7 @@ public class FragmentCreateClassroom extends Fragment implements AdapterView.OnI
         list_types = new ArrayList<>();
         list_types.add("Επιλέξτε Τύπο");
 
-        new AsyncGetJSONFromURL(DefineURLS.GET_SUBJECT_TYPES, null).run(new AsyncResults() {
+        new AsyncGetJSONFromURL(URLS.GET_SUBJECT_TYPES, null).run(new AsyncResults() {
             @Override
             public void taskResultsObject(Object results) {
 
@@ -200,7 +200,7 @@ public class FragmentCreateClassroom extends Fragment implements AdapterView.OnI
                 Toast.makeText(getContext(), entry.getKey() + " == " + entry.getValue(), Toast.LENGTH_SHORT).show();
             }
 
-            new AsyncPostDataToURL(DefineURLS.CREATE_CLASSROOM, classroom_data)
+            new AsyncPostDataToURL(URLS.CREATE_CLASSROOM, classroom_data)
                 .run(new AsyncResults() {
                     @Override
                     public void taskResultsObject(Object results) {
@@ -267,7 +267,7 @@ public class FragmentCreateClassroom extends Fragment implements AdapterView.OnI
                                             editor.putInt("classroom_timer", 10 * 60 * 1000);
                                             editor.apply();
 
-                                            Intent intent = new Intent(getContext(), ActivityClassroom.class);
+                                            Intent intent = new Intent(getContext(), ClassroomActivity.class);
                                             getContext().startActivity(intent);
 
                                             Activity ac = (Activity) getContext();

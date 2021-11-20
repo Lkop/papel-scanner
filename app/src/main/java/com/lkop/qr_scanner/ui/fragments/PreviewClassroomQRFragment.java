@@ -1,26 +1,24 @@
 package com.lkop.qr_scanner.ui.fragments;
 
-
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.lkop.qr_scanner.constants.DefineURLS;
+import com.lkop.qr_scanner.constants.URLS;
 import com.example.lkop.qr_scanner.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-public class FragmentPreviewClassroomQR extends Fragment {
+public class PreviewClassroomQRFragment extends Fragment {
 
-    String classroom_token;
+    private View view;
+    private String classroom_token;
+    private ImageView qr_preview_imageview;
 
-    public FragmentPreviewClassroomQR() {
+    public PreviewClassroomQRFragment() {
         // Required empty public constructor
     }
 
@@ -29,21 +27,15 @@ public class FragmentPreviewClassroomQR extends Fragment {
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
-
         classroom_token = args.getString("classroom_token");
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_preview_classroom_qr, container, false);
+        qr_preview_imageview = (ImageView)view.findViewById(R.id.qr_preview_imageview);
 
-        final View view = inflater.inflate(R.layout.fragment_preview_classroom_qr, container, false);
-
-        ImageView img_view = (ImageView)view.findViewById(R.id.image_view_preview_qr);
-
-
-        Picasso.get().load(DefineURLS.EXTERNAL_GET_QR+"?size=900x900&data="+classroom_token).into(img_view, new Callback() {
+        Picasso.get().load(URLS.EXTERNAL_GET_QR+"?size=900x900&data="+classroom_token).into(qr_preview_imageview, new Callback() {
             @Override
             public void onSuccess() {
 
@@ -56,7 +48,6 @@ public class FragmentPreviewClassroomQR extends Fragment {
 
             }
         });
-
         return view;
     }
 

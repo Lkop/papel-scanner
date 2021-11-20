@@ -18,7 +18,7 @@
 
 
 <!--        <activity android:name=".ActivitySplashScreen">-->
-        <activity android:name="com.lkop.qr_scanner.ui.activities.ActivityMainMenu">
+        <activity android:name="com.lkop.qr_scanner.ui.activities.MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -38,10 +38,10 @@
             android:label="Updater">
         </service>
 
-        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.ActivityClassroom"/>
-        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.Search_Activity"/>
-        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.ScanOCR_Activity"/>
-        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.ActivityMatchPassId"/>
+        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.ClassroomActivity"/>
+        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.SearchActivity"/>
+        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.ScanOCRActivity"/>
+        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.MatchPassIdActivity"/>
         <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.CustomScannerActivity"/>
 
     </application>

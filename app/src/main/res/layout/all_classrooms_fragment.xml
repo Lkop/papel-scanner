@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lkop.qr_scanner.ui.fragments.FragmentAllClassrooms"
+    tools:context="com.lkop.qr_scanner.ui.fragments.AllClassroomsFragment"
     android:clickable="true"
     android:focusable="true"
     android:background="#eff0f1">

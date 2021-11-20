@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.lkop.qr_scanner.R;
 
-public class FragmentConnectionLostMessage extends Fragment {
+public class ConnectionLostMessageFragment extends Fragment {
 
     private TextView update_message_textview, update_url;
 

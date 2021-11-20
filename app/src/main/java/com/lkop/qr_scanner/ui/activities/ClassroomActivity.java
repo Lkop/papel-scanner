@@ -36,9 +36,9 @@ import com.lkop.qr_scanner.network.AsyncPostDataToURL;
 import com.lkop.qr_scanner.network.AsyncResults;
 import com.lkop.qr_scanner.network.AsyncSearchStudent;
 import com.lkop.qr_scanner.network.AsyncSearchStudentFromUOP;
-import com.lkop.qr_scanner.constants.DefineURLS;
-import com.lkop.qr_scanner.ui.fragments.FragmentPreviewClassroomQR;
-import com.lkop.qr_scanner.ui.fragments.FragmentSearchStudent;
+import com.lkop.qr_scanner.constants.URLS;
+import com.lkop.qr_scanner.ui.fragments.PreviewClassroomQRFragment;
+import com.lkop.qr_scanner.ui.fragments.SearchStudentFragment;
 import com.example.lkop.qr_scanner.R;
 import com.lkop.qr_scanner.models.StudentData;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActivityClassroom extends AppCompatActivity {
+public class ClassroomActivity extends AppCompatActivity {
 
     private TableLayout tableLayout;
     private TextView current_classroom_view, current_classroom_date_view, students_counter_text_view;
@@ -190,7 +190,7 @@ public class ActivityClassroom extends AppCompatActivity {
 
                             }
 
-                            Fragment fr = new FragmentSearchStudent();
+                            Fragment fr = new SearchStudentFragment();
                             Bundle bdl = new Bundle();
                             bdl.putString("name_arg", student_name);
                             bdl.putString("lastname_arg", student_lastname);
@@ -212,7 +212,7 @@ public class ActivityClassroom extends AppCompatActivity {
 
             classroom_data.put("post_classroom_token", classroom_token);
 
-            new AsyncPostDataToURL(DefineURLS.FETCH_CLASSROOM_STUDENTS, classroom_data)
+            new AsyncPostDataToURL(URLS.FETCH_CLASSROOM_STUDENTS, classroom_data)
                 .run(new AsyncResults() {
                 @Override
                 public void taskResultsObject(Object results) {
@@ -385,7 +385,7 @@ public class ActivityClassroom extends AppCompatActivity {
 
                                 Toast.makeText(context, "Σκανάρετε τον Α.Μ.", Toast.LENGTH_LONG).show();
 
-                                Intent intent = new Intent(context, ScanOCR_Activity.class);
+                                Intent intent = new Intent(context, ScanOCRActivity.class);
                                 intent.putExtra("pass_id_arg", result.getContents());
                                 startActivity(intent);
 
@@ -456,7 +456,7 @@ public class ActivityClassroom extends AppCompatActivity {
                                                 }
 
 
-                                                Fragment fr = new FragmentSearchStudent();
+                                                Fragment fr = new SearchStudentFragment();
                                                 Bundle bdl = new Bundle();
                                                 bdl.putString("name_arg", student_data.getName());
                                                 bdl.putString("lastname_arg", student_data.getLastname());
@@ -634,7 +634,7 @@ public class ActivityClassroom extends AppCompatActivity {
         editor.putInt("classroom_timer", 0);
 
         if (editor.commit()) {
-            Intent intent = new Intent(context, ActivityMainMenu.class);
+            Intent intent = new Intent(context, MainMenuActivity.class);
             context.startActivity(intent);
 
             changeClassroomTimer.cancel();
@@ -647,7 +647,7 @@ public class ActivityClassroom extends AppCompatActivity {
 
     private void previewQR(){
 
-        FragmentPreviewClassroomQR fragmentPreviewClassroomQR = new FragmentPreviewClassroomQR();
+        PreviewClassroomQRFragment fragmentPreviewClassroomQR = new PreviewClassroomQRFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString("classroom_token", classroom_token);
