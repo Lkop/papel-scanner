@@ -34,12 +34,11 @@
 
         <service
             android:enabled="true"
-            android:name="com.lkop.qr_scanner.services.ServiceUpdater"
+            android:name="com.lkop.qr_scanner.services.UpdaterService"
             android:label="Updater">
         </service>
 
         <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.ClassroomActivity"/>
-        <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.SearchActivity"/>
         <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.ScanOCRActivity"/>
         <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.MatchPassIdActivity"/>
         <activity android:label="@string/app_name" android:name="com.lkop.qr_scanner.ui.activities.CustomScannerActivity"/>

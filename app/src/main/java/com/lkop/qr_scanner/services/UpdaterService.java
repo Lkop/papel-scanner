@@ -17,13 +17,13 @@ import androidx.core.app.NotificationCompat;
 import com.lkop.qr_scanner.network.AsyncGetJSONFromURL;
 import com.lkop.qr_scanner.network.AsyncResults;
 import com.example.lkop.qr_scanner.BuildConfig;
-import com.lkop.qr_scanner.constants.DefineURLS;
+import com.lkop.qr_scanner.constants.URLS;
 import com.example.lkop.qr_scanner.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ServiceUpdater extends Service {
+public class UpdaterService extends Service {
 
     public static int SERVICE_UPDATER_SEMAPHORE = 1;
 
@@ -32,18 +32,13 @@ public class ServiceUpdater extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-
-
         handler.post(new Runnable() {
             @Override
             public void run() {
-
-                new AsyncGetJSONFromURL(DefineURLS.GET_VERSION, null).run(new AsyncResults() {
+                new AsyncGetJSONFromURL(URLS.GET_VERSION, null).run(new AsyncResults() {
                     @Override
                     public void taskResultsObject(Object results) {
                         String r = (String)results;
-
                         try {
                             JSONObject obj = new JSONObject(r);
 
