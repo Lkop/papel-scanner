@@ -12,7 +12,9 @@ public class StudentData {
         setAM(am);
     }
 
-    public StudentData() {}
+    public StudentData() {
+
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -37,4 +39,5 @@ public class StudentData {
     public String getAM() {
         return am;
     }
+
 }
