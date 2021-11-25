@@ -8,7 +8,6 @@
     <string name="create_classroom_textview_text">Δημιουργία Τμήματος</string>
     <string name="all_classrooms_btn_text">Προβολή Τμημάτων</string>
 
-
     <string name="add">ΠΡΟΣΘΗΚΗ</string>
     <string name="name">Όνομα</string>
     <string name="lastname">Επώνυμο</string>
@@ -18,14 +17,10 @@
     <string name="TextView_center_no_internet">Πρέπει να έχετε πρόβαση στο διαδίκτυο για να προχωρήσετε</string>
     <string name="TextView_center_older_version">Έχετε μια παλαιότερη έκδοση της εφαρμογής</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hello_blank_fragment2">Helladsfdfsafdasadfsfadsfadsdfasasdffadsafdsdfasgsadgo blank fragment</string>
-
-
     <string name="change_classroom">Αλλαγή</string>
     <string name="add_in_classroom">Προσθήκη Φοιτητή</string>
     <string name="developer">Λουκάς Κοπανιάς</string>
+    <string name="scan_classroom_text">Σκανάρετε τμήμα</string>
 
 
     <string-array name="subjects">
