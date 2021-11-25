@@ -21,15 +21,7 @@ public class AsyncHttp {
     private final OkHttpClient client = new OkHttpClient();
 
     public void get(String[] url_data, Map<String,String> parameters, AsyncResultsCallbackInterface callback) {
-        String params = "";
-        if(parameters != null && !parameters.isEmpty()) {
-            params += "?";
-            try {
-                params = HttpParametersUtils.createGetParameters(parameters);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
+        String params = HttpParametersUtils.createUrlParameters(parameters);
 
         Request request = new Request.Builder()
                 .url(url_data[1] + params)
