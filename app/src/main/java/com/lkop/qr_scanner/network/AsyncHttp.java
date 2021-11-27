@@ -6,7 +6,6 @@ import com.lkop.qr_scanner.constants.URLS;
 import com.lkop.qr_scanner.utils.HttpParametersUtils;
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -21,10 +20,8 @@ public class AsyncHttp {
     private final OkHttpClient client = new OkHttpClient();
 
     public void get(String[] url_data, Map<String,String> parameters, AsyncResultsCallbackInterface callback) {
-        String params = HttpParametersUtils.createUrlParameters(parameters);
-
         Request request = new Request.Builder()
-                .url(url_data[1] + params)
+                .url(HttpParametersUtils.createUrlWithParameters(url_data, parameters))
                 .build();
 
         client.newCall(request).enqueue(new Callback() {

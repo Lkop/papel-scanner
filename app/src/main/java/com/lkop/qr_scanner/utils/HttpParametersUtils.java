@@ -11,10 +11,13 @@ public final class HttpParametersUtils {
 
     }
 
-    public static String createUrlParameters(Map<String, String> parameters) {
-        String url_params = "";
+    public static String createUrlWithParameters(String[] url_data, Map<String, String> parameters) {
+        String url_params = url_data[1];
         if(parameters != null && !parameters.isEmpty()) {
             url_params += "?";
+            if (url_data[0].equals("uop")) {
+                url_params += "appSecret=" + url_data[2];
+            }
             try {
                 StringBuilder sb = new StringBuilder();
                 for(HashMap.Entry<String, String> e : parameters.entrySet()){
