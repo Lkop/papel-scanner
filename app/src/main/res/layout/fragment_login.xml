@@ -82,6 +82,16 @@
                     android:singleLine="true"
                     android:background="@drawable/round_10dp_border_1dp"/>
 
+                <CheckBox
+                    android:id="@+id/save_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/cyan_title"
+                    android:text="Αποθήκευση στοιχείων"
+                    android:textSize="18sp"
+                    android:textColor="#808080"
+                    android:layout_marginBottom="10dp"/>
+
                 <Button
                     android:id="@+id/login_btn"
                     android:layout_width="wrap_content"
