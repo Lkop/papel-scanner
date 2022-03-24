@@ -195,6 +195,15 @@ public class MainMenuActivity extends AppCompatActivity {
 //        // Commit the transaction
 //        //transaction.commit();
 
+        getSupportFragmentManager().setFragmentResultListener("qr_scanner_response", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                getSupportFragmentManager().popBackStack();
+                String classroom_token = bundle.getString("classroom_token");
+                openClassroomActivity(classroom_token);
+            }
+        });
+
     }
 
     @Override

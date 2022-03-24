@@ -1,11 +1,10 @@
 package com.lkop.qr_scanner.ui.fragments;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import androidx.fragment.app.Fragment;
 import com.example.lkop.qr_scanner.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.ResultPoint;
@@ -36,9 +35,11 @@ public class ScannerFragment extends Fragment {
         barcode_view.getBarcodeView().decodeSingle(new BarcodeCallback() {
             @Override
             public void barcodeResult(BarcodeResult result) {
-                Toast.makeText(getActivity(), result.getText(), Toast.LENGTH_LONG).show();
+                String qr_code = result.getText();
+                Bundle bundle = new Bundle();
+                bundle.putString("classroom_token", qr_code);
+                getParentFragmentManager().setFragmentResult("qr_scanner_response", bundle);
             }
-
             @Override
             public void possibleResultPoints(List<ResultPoint> resultPoints) {
                 for(ResultPoint rp : resultPoints) {
@@ -46,7 +47,6 @@ public class ScannerFragment extends Fragment {
                 }
             }
         });
-
         return view;
     }
 
