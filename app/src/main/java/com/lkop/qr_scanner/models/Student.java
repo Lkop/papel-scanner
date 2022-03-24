@@ -1,18 +1,18 @@
 package com.lkop.qr_scanner.models;
 
-public class StudentData {
+public class Student {
 
     private String name;
     private String lastname;
     private String am;
 
-    public StudentData(String name, String lastname, String am) {
+    public Student(String name, String lastname, String am) {
         setName(name);
         setLastname(lastname);
         setAM(am);
     }
 
-    public StudentData() {
+    public Student() {
 
     }
 

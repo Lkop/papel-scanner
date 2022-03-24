@@ -1,25 +1,33 @@
 package com.lkop.qr_scanner.models;
 
-public class ClassroomInfo {
+public class Classroom {
 
-    private String id;
+    private int id;
+    private int creator;
     private String token;
     private String subject_name;
     private String subject_professor;
     private String date;
     private String type;
+    private int timer;
 
-    public ClassroomInfo(String id, String token, String subject_name, String subject_professor, String date, String type) {
+    public Classroom(int id, int creator, String token, String subject_name, String subject_professor, String date, String type) {
         this.id = id;
+        this.creator = creator;
         this.token = token;
         this.subject_name = subject_name;
         this.subject_professor = subject_professor;
         this.date = date;
         this.type = type;
+        this.timer = 10 * 60 * 1000;
     }
 
-    public String getID() {
+    public int getId() {
         return id;
+    }
+
+    public int getCreator() {
+        return creator;
     }
 
     public String getClassroomToken() {
@@ -42,4 +50,11 @@ public class ClassroomInfo {
         return type;
     }
 
+    public int getTimer() {
+        return timer;
+    }
+
+    public void setTimer(int timer) {
+        this.timer = timer;
+    }
 }
