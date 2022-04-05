@@ -19,9 +19,10 @@ public class ScannerFragment extends Fragment {
 
     private View view;
     private DecoratedBarcodeView barcode_view;
+    private String message;
 
-    public ScannerFragment() {
-
+    public ScannerFragment(String message) {
+        this.message = message;
     }
 
     @Override
@@ -29,7 +30,7 @@ public class ScannerFragment extends Fragment {
         view = inflater.inflate(R.layout.scanner_fragment, container, false);
         barcode_view = view.findViewById(R.id.scanner_area_scanner_fragment);
 
-        barcode_view.setStatusText("Σκανάρετε το QR από το πάσο");
+        barcode_view.setStatusText(message);
         barcode_view.getViewFinder().setLaserVisibility(false);
         barcode_view.getBarcodeView().setDecoderFactory(new DefaultDecoderFactory(Collections.singletonList(BarcodeFormat.QR_CODE)));
         barcode_view.getBarcodeView().decodeSingle(new BarcodeCallback() {
@@ -37,7 +38,7 @@ public class ScannerFragment extends Fragment {
             public void barcodeResult(BarcodeResult result) {
                 String qr_code = result.getText();
                 Bundle bundle = new Bundle();
-                bundle.putString("classroom_token", qr_code);
+                bundle.putString("qr_text", qr_code);
                 getParentFragmentManager().setFragmentResult("qr_scanner_response", bundle);
             }
             @Override
