@@ -2,42 +2,33 @@ package com.lkop.qr_scanner.models;
 
 public class Student {
 
+    private int id;
     private String name;
     private String lastname;
-    private String am;
+    private long am;
+    private long pass_id;
 
-    public Student(String name, String lastname, String am) {
-        setName(name);
-        setLastname(lastname);
-        setAM(am);
-    }
-
-    public Student() {
-
-    }
-
-    public void setName(String name) {
+    public Student(int id, String name, String lastname, long am, long pass_id) {
+        this.id = id;
         this.name = name;
+        this.lastname = lastname;
+        this.am = am;
+        this.pass_id = pass_id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
     public String getLastname() {
         return lastname;
     }
 
-    public void setAM(String am) {
-        this.am = am;
-    }
-
-    public String getAM() {
+    public long getAM() {
         return am;
     }
 
+    public long getPassId() {
+        return pass_id;
+    }
 }
