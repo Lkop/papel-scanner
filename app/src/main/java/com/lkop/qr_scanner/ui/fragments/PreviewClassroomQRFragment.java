@@ -1,14 +1,16 @@
 package com.lkop.qr_scanner.ui.fragments;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.lkop.qr_scanner.constants.URLS;
+
+import androidx.fragment.app.Fragment;
+
 import com.example.lkop.qr_scanner.R;
+import com.lkop.qr_scanner.constants.URLs;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -35,14 +37,12 @@ public class PreviewClassroomQRFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_preview_classroom_qr, container, false);
         qr_preview_imageview = (ImageView)view.findViewById(R.id.qr_preview_imageview);
 
-        Picasso.get().load(URLS.EXTERNAL_GET_QR+"?size=900x900&data="+classroom_token).into(qr_preview_imageview, new Callback() {
+        Picasso.get().load(URLs.EXTERNAL_GET_QR+"?size=900x900&data="+classroom_token).into(qr_preview_imageview, new Callback() {
             @Override
             public void onSuccess() {
-
                 TextView loading_msg = (TextView)view.findViewById(R.id.preview_loading_message);
                 loading_msg.setVisibility(View.GONE);
             }
-
             @Override
             public void onError(Exception e) {
 

@@ -15,7 +15,7 @@ import androidx.preference.PreferenceManager;
 import com.example.lkop.qr_scanner.R;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lkop.qr_scanner.constants.URLS;
+import com.lkop.qr_scanner.constants.URLs;
 import com.lkop.qr_scanner.network.AsyncHttp;
 import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
 import java.io.IOException;
@@ -90,7 +90,7 @@ public class LoginFragment extends Fragment {
                     user_data.put("email", email_string + "@uop.gr");
                     user_data.put("password", password_string);
 
-                    new AsyncHttp().post(URLS.UOP_VERIFY_USER, user_data, new AsyncResultsCallbackInterface() {
+                    new AsyncHttp().post(URLs.UOP_VERIFY_USER, user_data, new AsyncResultsCallbackInterface() {
                         @Override
                         public void onSuccess(String json_string) {
                             if (json_string == null || json_string.isEmpty()) {

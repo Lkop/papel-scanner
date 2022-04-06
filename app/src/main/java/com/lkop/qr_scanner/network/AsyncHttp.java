@@ -2,7 +2,7 @@ package com.lkop.qr_scanner.network;
 
 import androidx.annotation.NonNull;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lkop.qr_scanner.constants.URLS;
+import com.lkop.qr_scanner.constants.URLs;
 import com.lkop.qr_scanner.utils.HttpParametersUtils;
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class AsyncHttp {
     public void post(String[] url_data, Map<String,String> parameters, AsyncResultsCallbackInterface callback) {
         String json_payload = "";
         try {
-            if(url_data[0].equals(URLS.UOP)) {
+            if(url_data[0].equals(URLs.UOP)) {
                 parameters.put("appSecret", url_data[2]);
             }
             ObjectMapper mapper = new ObjectMapper();

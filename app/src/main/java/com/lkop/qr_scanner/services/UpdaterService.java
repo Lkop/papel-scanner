@@ -17,7 +17,7 @@ import androidx.core.app.NotificationCompat;
 import com.lkop.qr_scanner.network.AsyncGetJSONFromURL;
 import com.lkop.qr_scanner.network.AsyncResults;
 import com.example.lkop.qr_scanner.BuildConfig;
-import com.lkop.qr_scanner.constants.URLS;
+import com.lkop.qr_scanner.constants.URLs;
 import com.example.lkop.qr_scanner.R;
 
 import org.json.JSONException;
@@ -35,7 +35,7 @@ public class UpdaterService extends Service {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                new AsyncGetJSONFromURL(URLS.GET_VERSION, null).run(new AsyncResults() {
+                new AsyncGetJSONFromURL(URLs.GET_VERSION, null).run(new AsyncResults() {
                     @Override
                     public void taskResultsObject(Object results) {
                         String r = (String)results;
