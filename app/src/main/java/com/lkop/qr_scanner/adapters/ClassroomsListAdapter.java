@@ -6,34 +6,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import com.example.lkop.qr_scanner.R;
-import com.lkop.qr_scanner.models.ClassroomInfo;
-
+import com.lkop.qr_scanner.models.Classroom;
 import java.util.ArrayList;
 
-public class CustomListAdapter extends ArrayAdapter<ClassroomInfo> {
-
-    private ArrayList<ClassroomInfo> data;
-    private Context context;
+public class ClassroomsListAdapter extends ArrayAdapter<Classroom> {
 
     private TextView textview_subject_name;
     private TextView textview_date;
     private TextView textview_type;
 
-
-    public CustomListAdapter(ArrayList<ClassroomInfo> data, Context context) {
+    public ClassroomsListAdapter(ArrayList<Classroom> data, Context context) {
         super(context, R.layout.custom_list_item, data);
-
-        this.data = data;
-        this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         // Get the data item for this position
-        ClassroomInfo classroom_info = getItem(position);
+        Classroom classroom_info = getItem(position);
 
         View view = convertView;
 
