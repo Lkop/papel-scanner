@@ -12,27 +12,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:background="@drawable/textlines">
+        android:background="@drawable/textlines"
+        android:gravity="center">
 
-        <TextView
-            android:id="@+id/textView2"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="PAPEL ID Scanner"
-            android:textStyle="bold"
-            android:textSize="25sp"
-           />
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PAPEL ID Scanner"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/creator_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/developer"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
-
     <RelativeLayout
-        android:id="@+id/container_scan_classroom"
+        android:id="@+id/container_main_menu_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/header"
@@ -48,8 +60,7 @@
             android:textColor="@color/my_color"
             android:textSize="18sp"
             android:visibility="gone"
-            android:layout_centerInParent="true"
-           />
+            android:layout_centerInParent="true"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,16 +68,33 @@
             android:layout_above="@id/middle_separator"
             android:gravity="center">
 
-            <Button
-                android:id="@+id/scan_class_btn"
+            <LinearLayout
+                android:id="@+id/scan_class_layout_mainmenu_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#4dc3ff"
-                android:text="Σκαναρετε τμημα"
-                android:paddingLeft="10sp"
-                android:paddingRight="10sp"
-                android:textColor="@android:color/background_light"
-                android:visibility="gone"/>
+                android:padding="6dp"
+                android:background="@drawable/round_10dp_border_1dp"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/scan_class_button_mainmenu_activity"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:background="@drawable/qr_code_128"
+                    android:textColor="@android:color/black"
+                    android:clickable="false"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="6dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/scan_classroom_text"
+                    android:textColor="@color/light_gray_text" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -82,33 +110,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/middle_separator"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/all_classrooms_btn"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:background="#eea236"
-                android:text="@string/all_classrooms_btn_text"
-                android:textAllCaps="true"
                 android:paddingLeft="10sp"
                 android:paddingRight="10sp"
+                android:text="@string/all_classrooms_btn_text"
+                android:textAllCaps="true"
                 android:textColor="@android:color/background_light"
-                android:layout_marginBottom="20dp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/create_classroom_btn"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:background="#eea236"
-                android:text="@string/create_classroom_btn_text"
-                android:textAllCaps="true"
                 android:paddingLeft="10sp"
                 android:paddingRight="10sp"
+                android:text="@string/create_classroom_btn_text"
+                android:textAllCaps="true"
                 android:textColor="@android:color/background_light"
-                android:visibility="gone "/>
+                android:visibility="visible" />
 
         </LinearLayout>
 
@@ -120,7 +148,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/textlines"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

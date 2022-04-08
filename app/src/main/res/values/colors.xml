@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#d81b60</color>
     <color name="my_color">#6c6c6c</color>
-    <color name="light_gray">#B1BCBE</color>
+    <color name="cyan_title">#4dc3ff</color>
+    <color name="light_gray_text">#B1BCBE</color>
 </resources>

@@ -22,9 +22,10 @@ public class MatchPassIdFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_match_pass_id, container, false);
 
 
-        TextView fullname_textview = (TextView)view.findViewById(R.id.fullname_match);
-        TextView am_textview = (TextView)view.findViewById(R.id.am_match);
-        TextView pass_id_textview = (TextView)view.findViewById(R.id.pass_id_match);
+        TextView name_textview = (TextView)view.findViewById(R.id.name_textview_match_fragment);
+        TextView lastname_textview = (TextView)view.findViewById(R.id.lastname_textview_match_fragment);
+        TextView am_textview = (TextView)view.findViewById(R.id.am_textview_match_fragment);
+        TextView pass_id_textview = (TextView)view.findViewById(R.id.pass_id_textview_match_fragment);
 
         Bundle args = getArguments();
 

@@ -4,15 +4,16 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.lkop.qr_scanner.R;
 import com.google.android.gms.vision.CameraSource;
@@ -90,13 +91,8 @@ public class ScanOCRActivity extends AppCompatActivity {
                 @Override
                 public void surfaceCreated(SurfaceHolder holder) {
                     try {
-
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(),
-                                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-                            ActivityCompat.requestPermissions(ScanOCRActivity.this,
-                                    new String[]{Manifest.permission.CAMERA},
-                                    requestPermissionID);
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(ScanOCRActivity.this, new String[]{Manifest.permission.CAMERA}, requestPermissionID);
                             return;
                         }
                         mCameraSource.start(mCameraView.getHolder());

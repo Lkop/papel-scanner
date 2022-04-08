@@ -2,7 +2,6 @@ package com.lkop.qr_scanner.network;
 
 import java.io.IOException;
 import java.util.Map;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -16,14 +15,12 @@ public class AsyncGetJSONFromURL {
     private OkHttpClient client = new OkHttpClient();
 
     public AsyncGetJSONFromURL(String[][] url_data, Map<String,String> data){
-
         this.host = url_data[0][0];
         this.url = url_data[0][1];
         this.app_secret = url_data[0][2];
     }
 
     public void run(AsyncResults delegate) {
-
         final AsyncResults d = delegate;
 
         Request request = new Request.Builder()
@@ -31,7 +28,6 @@ public class AsyncGetJSONFromURL {
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
-
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -39,7 +35,6 @@ public class AsyncGetJSONFromURL {
 
             @Override
             public void onResponse(Call call, Response response) {
-
                 ResponseBody responseBody;
                 String string_body = null;
 
@@ -60,7 +55,6 @@ public class AsyncGetJSONFromURL {
                 }catch(IOException | NullPointerException e){
                     d.taskResultsObject(null);
                 }
-
                 d.taskResultsObject(string_body);
             }
         });

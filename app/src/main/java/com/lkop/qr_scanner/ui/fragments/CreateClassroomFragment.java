@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,34 +16,28 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.lkop.qr_scanner.network.AsyncGetJSONFromURL;
 import com.lkop.qr_scanner.network.AsyncPostDataToURL;
 import com.lkop.qr_scanner.network.AsyncResults;
 import com.lkop.qr_scanner.network.AsyncSearchClassroom;
-import com.lkop.qr_scanner.constants.URLS;
+import com.lkop.qr_scanner.constants.URLs;
 import com.example.lkop.qr_scanner.R;
 import com.lkop.qr_scanner.ui.activities.ClassroomActivity;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class CreateClassroomFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
+    private View view;
     private Button create_classroom_btn;
-
     private ArrayList<String> list_subjects, list_types;
     private ArrayList<String> list_subjects_id, list_types_id;
-
     private String tmp_subjects_id, tmp_types_id;
     private String classroom_token = "";
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +50,7 @@ public class CreateClassroomFragment extends Fragment implements AdapterView.OnI
         list_subjects = new ArrayList<>();
         list_subjects.add("Επιλέξτε Μάθημα");
 
-        new AsyncGetJSONFromURL(URLS.GET_SUBJECTS, null).run(new AsyncResults() {
+        new AsyncGetJSONFromURL(URLs.GET_SUBJECTS, null).run(new AsyncResults() {
             @Override
             public void taskResultsObject(Object results) {
 
@@ -84,14 +76,13 @@ public class CreateClassroomFragment extends Fragment implements AdapterView.OnI
         list_types = new ArrayList<>();
         list_types.add("Επιλέξτε Τύπο");
 
-        new AsyncGetJSONFromURL(URLS.GET_SUBJECT_TYPES, null).run(new AsyncResults() {
+        new AsyncGetJSONFromURL(URLs.GET_SUBJECT_TYPES, null).run(new AsyncResults() {
             @Override
             public void taskResultsObject(Object results) {
 
                 JSONArray jsonArray = (JSONArray)results;
 
                 for (int i = 0; i < jsonArray.length(); i++) {
-
                     try {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         list_types.add(obj.getString("type_text").toUpperCase());
@@ -105,11 +96,9 @@ public class CreateClassroomFragment extends Fragment implements AdapterView.OnI
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //initialize components
-        View view = inflater.inflate(R.layout.fragment_create_classroom, container, false);
+        view = inflater.inflate(R.layout.fragment_create_classroom, container, false);
 
         //SUBJECTS - SUBJECTS - SUBJECTS - SUBJECTS - SUBJECTS - SUBJECTS
         Spinner spinner_subjects = (Spinner)view.findViewById(R.id.spinner_subjects);
@@ -146,14 +135,11 @@ public class CreateClassroomFragment extends Fragment implements AdapterView.OnI
         //Button event listener
         create_classroom_btn.setOnClickListener(this);
 
-
-
         return view;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
         if(position == 0)
             ((TextView)parent.getChildAt(0)).setTextColor(Color.parseColor("#808080"));
         else
@@ -183,16 +169,12 @@ public class CreateClassroomFragment extends Fragment implements AdapterView.OnI
 
     @Override
     public void onClick(View view) {
-
         if(tmp_subjects_id.isEmpty() || tmp_types_id.isEmpty()){
-
             Toast.makeText(getContext(), "Εισάγετε όλα τα στοιχεία", Toast.LENGTH_SHORT).show();
         }else{
-
             create_classroom_btn.setEnabled(false);
 
             Map<String, String> classroom_data = new HashMap<>();
-
             classroom_data.put("post_subject_id", tmp_subjects_id);
             classroom_data.put("post_subject_type_id", tmp_types_id);
 
@@ -200,7 +182,7 @@ public class CreateClassroomFragment extends Fragment implements AdapterView.OnI
                 Toast.makeText(getContext(), entry.getKey() + " == " + entry.getValue(), Toast.LENGTH_SHORT).show();
             }
 
-            new AsyncPostDataToURL(URLS.CREATE_CLASSROOM, classroom_data)
+            new AsyncPostDataToURL(URLs.POST_CREATE_CLASSROOM, classroom_data)
                 .run(new AsyncResults() {
                     @Override
                     public void taskResultsObject(Object results) {

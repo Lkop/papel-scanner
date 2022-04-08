@@ -23,20 +23,21 @@ import org.json.JSONObject;
 
 public class SearchStudentFragment extends Fragment {
 
+    private View view;
     private String am, classroom_id, classroom_token;
     private SharedPreferences preferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        final View view = inflater.inflate(R.layout.fragment_search_user, container, false);
+        view = inflater.inflate(R.layout.search_student_fragment, container, false);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         classroom_id = preferences.getString("classroom_id", "");
         classroom_token = preferences.getString("classroom_token", "");
 
-        TextView fullname_textview = (TextView)view.findViewById(R.id.fullname_fr);
-        TextView am_textview = (TextView)view.findViewById(R.id.am_fr);
+        TextView name_textview = (TextView)view.findViewById(R.id.name_textview_search_fragment);
+        TextView lastname_textview = (TextView)view.findViewById(R.id.lastname_textview_search_fragment);
+        TextView am_textview = (TextView)view.findViewById(R.id.am_textview_search_fragment);
 
 
         Bundle args = getArguments();
@@ -48,57 +49,36 @@ public class SearchStudentFragment extends Fragment {
         String pass_id = args.getString("pass_id_arg");
 
 
-        fullname_textview.setText(name + " " + lastname);
+        name_textview.setText(name);
+        lastname_textview.setText(lastname);
         am_textview.setText(am);
 
-
-        final Button add_in_classroom_button = (Button)view.findViewById(R.id.add_in_classroom_fr);
+        final Button add_in_classroom_button = (Button)view.findViewById(R.id.add_button_search_fragment);
         add_in_classroom_button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
                 add_in_classroom_button.setEnabled(false);
-
                 new AsyncAddToClassroom(am, classroom_token, new AsyncResults() {
-
                     @Override
                     public void taskResultsObject(Object results) {
-
                         String results_str = (String)results;
-
                         if (results_str.length() == 2){
-
                             Toast.makeText(getActivity(), "Κάτι πήγε στραβά.", Toast.LENGTH_SHORT).show();
                         }else {
-
                             int success = 0;
-
                             try{
-
                                 JSONObject obj = new JSONObject(results_str);
-
                                 success = Character.getNumericValue(obj.getString("success").charAt(0));
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                             if(success == 1 ){
-
-                                //debugging
-                                //if(getActivity() instanceof ActivityClassroom){
-
-                                    //Need of typecast becuse onResume() is protected method
-                                    ((ClassroomActivity)getActivity()).onResume();
-                                //}
-
+                                ((ClassroomActivity)getActivity()).onResume();
                                 getActivity().onBackPressed();
-
                             }else{
                                 Toast.makeText(getActivity(), "Κάτι πήγε στραβά.", Toast.LENGTH_SHORT).show();
                             }
-
                         }
                     }
                 }).execute();

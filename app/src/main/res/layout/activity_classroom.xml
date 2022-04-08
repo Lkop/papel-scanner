@@ -11,22 +11,36 @@
         android:background="@drawable/textlines"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/textView2"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:text="PAPEL ID Scanner"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PAPEL ID Scanner"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/creator_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/developer"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/container"
+        android:id="@+id/container_classroom_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/footer"
@@ -141,41 +155,13 @@
                     android:background="@drawable/border_down"
                     android:orientation="vertical">
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <!-- first element of the row-->
                         <TextView
                             android:id="@+id/column_lastname"
-                            android:layout_width="@dimen/lastname_width"
-                            android:layout_height="wrap_content"
-                            android:background="#b0b0b0"
-                            android:textStyle="bold"
-                            android:paddingStart="10dp"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:text="@string/lastname"
-                            android:textColor="#000"
-                            android:textSize="16dp" />
-
-                        <TextView
-                            android:id="@+id/column_name"
-                            android:layout_width="@dimen/name_width"
-                            android:layout_height="wrap_content"
-                            android:background="#b0b0b0"
-                            android:textStyle="bold"
-                            android:paddingStart="10dp"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:text="@string/name"
-                            android:textColor="#000"
-                            android:textSize="16dp" />
-
-                        <TextView
-                            android:id="@+id/column_am"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="#b0b0b0"
@@ -183,11 +169,57 @@
                             android:paddingStart="10dp"
                             android:paddingTop="10dp"
                             android:paddingBottom="10dp"
-                            android:text="Α.Μ."
+                            android:text="@string/students_el"
                             android:textColor="#000"
-                            android:textSize="16dp"/>
-
+                            android:textSize="16dp" />
                     </LinearLayout>
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        &lt;!&ndash; first element of the row&ndash;&gt;-->
+<!--                        <TextView-->
+<!--                            android:id="@+id/column_lastname"-->
+<!--                            android:layout_width="@dimen/lastname_width"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="#b0b0b0"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:paddingStart="10dp"-->
+<!--                            android:paddingTop="10dp"-->
+<!--                            android:paddingBottom="10dp"-->
+<!--                            android:text="@string/lastname"-->
+<!--                            android:textColor="#000"-->
+<!--                            android:textSize="16dp" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/column_name"-->
+<!--                            android:layout_width="@dimen/name_width"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="#b0b0b0"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:paddingStart="10dp"-->
+<!--                            android:paddingTop="10dp"-->
+<!--                            android:paddingBottom="10dp"-->
+<!--                            android:text="@string/name"-->
+<!--                            android:textColor="#000"-->
+<!--                            android:textSize="16dp" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/column_am"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="#b0b0b0"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:paddingStart="10dp"-->
+<!--                            android:paddingTop="10dp"-->
+<!--                            android:paddingBottom="10dp"-->
+<!--                            android:text="Α.Μ."-->
+<!--                            android:textColor="#000"-->
+<!--                            android:textSize="16dp"/>-->
+
+<!--                    </LinearLayout>-->
 
 
                     <LinearLayout
@@ -196,7 +228,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/text_empty"
+                            android:id="@+id/empty_message_textview"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Δεν υπάρχουν φοιτητές"
@@ -205,29 +237,35 @@
                             android:textSize="18sp">
                         </TextView>
 
-                        <ScrollView
+                        <ListView
+                            android:id="@+id/students_listview_classroom_activity"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="5dp"
-                            android:scrollbars="none">
+                            android:layout_height="match_parent">
+                        </ListView>
 
-                            <HorizontalScrollView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:scrollbars="horizontal">
+<!--                        <ScrollView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:paddingLeft="10dp"-->
+<!--                            android:paddingRight="10dp"-->
+<!--                            android:paddingTop="5dp"-->
+<!--                            android:scrollbars="none">-->
 
-                                <TableLayout
-                                    android:id="@+id/students_table"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
+<!--                            <HorizontalScrollView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:scrollbars="horizontal">-->
 
-                                </TableLayout>
+<!--                                <TableLayout-->
+<!--                                    android:id="@+id/students_table"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content">-->
 
-                            </HorizontalScrollView>
+<!--                                </TableLayout>-->
 
-                        </ScrollView>
+<!--                            </HorizontalScrollView>-->
+
+<!--                        </ScrollView>-->
 
                     </LinearLayout>
 
@@ -257,23 +295,6 @@
 
         </RelativeLayout>
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/textlines"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/developer"
-            android:textColor="#000"
-            android:textSize="15sp" />
     </RelativeLayout>
 
 </RelativeLayout>

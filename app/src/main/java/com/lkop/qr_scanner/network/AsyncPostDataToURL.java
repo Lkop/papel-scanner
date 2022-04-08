@@ -2,15 +2,15 @@ package com.lkop.qr_scanner.network;
 
 import android.util.Log;
 
-import com.lkop.qr_scanner.constants.DefineURLS;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.lkop.qr_scanner.constants.URLs;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Map;
-
-import org.jetbrains.annotations.NotNull;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -26,11 +26,9 @@ public class AsyncPostDataToURL {
     private String host, url, app_secret;
     private Map<String,String> data;
     private String post_json;
-
     private OkHttpClient client = new OkHttpClient();
 
-    public AsyncPostDataToURL(String[][] url_data, Map<String,String> data){
-
+    public AsyncPostDataToURL(String[][] url_data, Map<String,String> data) {
         this.host = url_data[0][0];
         this.url = url_data[0][1];
         this.app_secret = url_data[0][2];
@@ -41,8 +39,7 @@ public class AsyncPostDataToURL {
             post_json = mapper.writeValueAsString(data);
 
             //UOP site add appSecret
-            if(host.equals(DefineURLS.UOP)) {
-
+            if(host.equals(URLs.UOP)) {
                 JsonNode json_node = mapper.readTree(post_json);
                 ((ObjectNode)json_node).put("appSecret", app_secret);
 
@@ -88,16 +85,13 @@ public class AsyncPostDataToURL {
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
                 Log.d("JJJJ", "err");
             }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) {
-
                 ResponseBody responseBody;
                 String string_body = null;
-
                 try {
                     responseBody = response.body();
 
@@ -118,7 +112,6 @@ public class AsyncPostDataToURL {
 
                 //Callback Request
                 d.taskResultsObject(string_body);
-
             }
         });
     }

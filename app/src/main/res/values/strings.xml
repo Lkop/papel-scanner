@@ -1,12 +1,13 @@
 <resources>
-
-    <!-- Application -->
-    <string name="app_name">QR_Scanner</string>
+    <string name="app_name">PAPEL Scanner</string>
 
     <!-- activity_main_menu -->
     <string name="create_classroom_btn_text">Δημιουργία Τμήματος</string>
     <string name="create_classroom_textview_text">Δημιουργία Τμήματος</string>
     <string name="all_classrooms_btn_text">Προβολή Τμημάτων</string>
+
+    <string name="students_en">Students</string>
+    <string name="students_el">Φοιτητές</string>
 
     <string name="add">ΠΡΟΣΘΗΚΗ</string>
     <string name="name">Όνομα</string>

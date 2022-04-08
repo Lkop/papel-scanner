@@ -4,33 +4,34 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.lkop.qr_scanner.network.AsyncGetJSONFromURL;
-import com.lkop.qr_scanner.network.AsyncResults;
-import com.lkop.qr_scanner.network.AsyncSearchClassroom;
-import com.lkop.qr_scanner.models.ClassroomInfo;
-import com.lkop.qr_scanner.adapters.CustomListAdapter;
-import com.lkop.qr_scanner.constants.URLS;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import com.example.lkop.qr_scanner.R;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lkop.qr_scanner.adapters.ClassroomsListAdapter;
+import com.lkop.qr_scanner.constants.URLs;
+import com.lkop.qr_scanner.models.Classroom;
+import com.lkop.qr_scanner.network.AsyncHttp;
+import com.lkop.qr_scanner.network.AsyncResults;
+import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
+import com.lkop.qr_scanner.network.AsyncSearchClassroom;
 import com.lkop.qr_scanner.ui.activities.ClassroomActivity;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class AllClassroomsFragment extends Fragment implements AdapterView.OnItemClickListener{
 
     private View view;
     private ListView list_view;
-    private ArrayList<ClassroomInfo> classrooms_list;
-    private CustomListAdapter adapter;
+    private ArrayList<Classroom> classrooms_list;
+    private ClassroomsListAdapter adapter;
     private boolean list_clicked = false;
 
     @Override
@@ -39,28 +40,30 @@ public class AllClassroomsFragment extends Fragment implements AdapterView.OnIte
 
         classrooms_list = new ArrayList<>();
 
-        new AsyncGetJSONFromURL(URLS.GET_CLASSROOMS, null).run(new AsyncResults() {
+        new AsyncHttp().get(URLs.GET_ALL_CLASSROOMS, null, new AsyncResultsCallbackInterface() {
             @Override
-            public void taskResultsObject(Object results) {
-                JSONArray json_array = null;
+            public void onSuccess(String json_string) {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode root_node = null;
                 try {
-                    json_array = new JSONArray((String)results);
-                } catch (JSONException e) {
+                    root_node = mapper.readTree(json_string);
+                } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
 
-                for (int i = 0; i < json_array.length(); i++) {
-                    try {
-                        JSONObject obj = json_array.getJSONObject(i);
-                        classrooms_list.add(new ClassroomInfo(obj.getString("id"),
-                                                              obj.getString("classroom_token"),
-                                                              obj.getString("subject_name").toUpperCase(),
-                                                              obj.getString("subject_professor").toUpperCase(),
-                                                              obj.getString("datetime"),
-                                                              obj.getString("type_text")));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                for (int i = 0; i < root_node.size(); i++) {
+                    JsonNode json_node = root_node.get(i);
+                    //TODO
+//                    classrooms_list.add(
+//                        new Classroom(
+//                            json_node.get("id").asText(),
+//                            json_node.get("classroom_token").asText(),
+//                            json_node.get("subject_name").asText().toUpperCase(),
+//                            json_node.get("subject_professor").asText().toUpperCase(),
+//                            json_node.get("datetime").asText(),
+//                            json_node.get("type_text").asText()
+//                        )
+//                    );
                 }
 
                 getActivity().runOnUiThread(new Runnable() {
@@ -69,6 +72,10 @@ public class AllClassroomsFragment extends Fragment implements AdapterView.OnIte
                         adapter.notifyDataSetChanged();
                     }
                 });
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
 
             }
         });
@@ -76,19 +83,13 @@ public class AllClassroomsFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-//        try {
-//            AsyncGetJSONFromURL.getThread().join();
-//        }catch (InterruptedException e){}
-
         view = inflater.inflate(R.layout.all_classrooms_fragment, container, false);
 
         list_view = (ListView)view.findViewById(R.id.listview_all_classrooms);
-
         list_view.setOnItemClickListener(this);
 
         //adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, R.id.custom_list_item, list_classrooms);
-        adapter = new CustomListAdapter(classrooms_list, getContext());
+        adapter = new ClassroomsListAdapter(classrooms_list, getContext());
 
         list_view.setAdapter(adapter);
 
@@ -101,7 +102,19 @@ public class AllClassroomsFragment extends Fragment implements AdapterView.OnIte
             //Clicke only one time
             list_clicked = true;
 
-            final ClassroomInfo classroom_info = classrooms_list.get(position);
+            final Classroom classroom_info = classrooms_list.get(position);
+
+            new AsyncHttp().get(URLs.GET_ALL_CLASSROOMS, null, new AsyncResultsCallbackInterface() {
+                @Override
+                public void onSuccess(String json_string) {
+
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            });
 
             new AsyncSearchClassroom(classroom_info.getClassroomToken(), new AsyncResults() {
                 @Override
@@ -113,7 +126,7 @@ public class AllClassroomsFragment extends Fragment implements AdapterView.OnIte
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                         SharedPreferences.Editor editor = preferences.edit();
 
-                        editor.putString("classroom_id", classroom_info.getID());
+                        editor.putString("classroom_id", classroom_info.getId()+"");
                         editor.putString("classroom_token", classroom_info.getClassroomToken());
                         editor.putString("classroom_subject_name", classroom_info.getSubjectName());
                         editor.putString("classroom_subject_prof", classroom_info.getSubjectProfessor());
@@ -128,7 +141,6 @@ public class AllClassroomsFragment extends Fragment implements AdapterView.OnIte
                     }
                 }
             }).execute();
-
         }
     }
 }

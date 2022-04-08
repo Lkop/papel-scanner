@@ -15,9 +15,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.lkop.qr_scanner.R;
-import com.lkop.qr_scanner.services.ServiceUpdater;
+import com.lkop.qr_scanner.services.UpdaterService;
 
-import static com.lkop.qr_scanner.services.ServiceUpdater.SERVICE_UPDATER_SEMAPHORE;
+import static com.lkop.qr_scanner.services.UpdaterService.SERVICE_UPDATER_SEMAPHORE;
 
 public class UpdateMessageFragment extends Fragment {
 
@@ -74,7 +74,7 @@ public class UpdateMessageFragment extends Fragment {
 
 
                 if(SERVICE_UPDATER_SEMAPHORE==0)
-                    getActivity().startService(new Intent(getContext(), ServiceUpdater.class));
+                    getActivity().startService(new Intent(getContext(), UpdaterService.class));
 
                 //getActivity().getSupportFragmentManager().popBackStack();
             }

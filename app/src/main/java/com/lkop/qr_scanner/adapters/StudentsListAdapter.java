@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class StudentsListAdapter extends ArrayAdapter<Student> {
 
     public StudentsListAdapter(ArrayList<Student> students, Context context) {
-        super(context, R.layout.custom_list_item, students);
+        super(context, R.layout.student_list_item, students);
     }
 
     @Override
