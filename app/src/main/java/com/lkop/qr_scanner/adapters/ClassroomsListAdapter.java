@@ -12,49 +12,27 @@ import java.util.ArrayList;
 
 public class ClassroomsListAdapter extends ArrayAdapter<Classroom> {
 
-    private TextView textview_subject_name;
-    private TextView textview_date;
-    private TextView textview_type;
-
-    public ClassroomsListAdapter(ArrayList<Classroom> data, Context context) {
-        super(context, R.layout.custom_list_item, data);
+    public ClassroomsListAdapter(ArrayList<Classroom> classrooms, Context context) {
+        super(context, R.layout.custom_list_item, classrooms);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convert_view, ViewGroup parent) {
+        Classroom classroom = getItem(position);
 
-        // Get the data item for this position
-        Classroom classroom_info = getItem(position);
-
-        View view = convertView;
-
-        if (view == null) {
-
-            //viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            //LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.custom_list_item, parent, false);
+        // Check if an existing view is being reused, otherwise inflate the view
+        if (convert_view == null) {
+            convert_view = LayoutInflater.from(getContext()).inflate(R.layout.custom_list_item, parent, false);
         }
+        TextView subject_name_textview = (TextView) convert_view.findViewById(R.id.custom_list_item_subject_name);
+        TextView date_textview = (TextView) convert_view.findViewById(R.id.custom_list_item_date);
+        TextView type_textview = (TextView) convert_view.findViewById(R.id.custom_list_item_type);
 
+        subject_name_textview.setText(classroom.getSubjectName());
+        date_textview.setText(classroom.getDate());
+        type_textview.setText(classroom.getType());
 
-        //Initialize TextViews
-        textview_subject_name = (TextView)view.findViewById(R.id.custom_list_item_subject_name);
-        textview_date = (TextView)view.findViewById(R.id.custom_list_item_date);
-        textview_type = (TextView)view.findViewById(R.id.custom_list_item_type);
-
-
-            //convertView.setTag(viewHolder);
-
-        //} else {
-            //viewHolder = (ViewHolder) convertView.getTag();
-        //}
-
-        textview_subject_name.setText(classroom_info.getSubjectName());
-        textview_date.setText(classroom_info.getDate());
-        textview_type.setText(classroom_info.getType());
-
-        // Return the completed view to render on screen
-        return view;
+        return convert_view;
     }
 
 }
