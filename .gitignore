@@ -76,3 +76,6 @@ lint/tmp/
 
 # Android Profiling
 *.hprof
+
+# Removing sensitive data
+URLs.java
