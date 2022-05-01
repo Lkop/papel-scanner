@@ -16,67 +16,86 @@ import com.example.lkop.qr_scanner.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.lkop.qr_scanner.adapters.ClassroomsListAdapter;
 import com.lkop.qr_scanner.constants.URLs;
 import com.lkop.qr_scanner.models.Classroom;
+import com.lkop.qr_scanner.models.User;
 import com.lkop.qr_scanner.network.AsyncHttp;
 import com.lkop.qr_scanner.network.AsyncResults;
 import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
 import com.lkop.qr_scanner.network.AsyncSearchClassroom;
 import com.lkop.qr_scanner.ui.activities.ClassroomActivity;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class AllClassroomsFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class MyClassroomsFragment extends Fragment implements AdapterView.OnItemClickListener{
 
     private View view;
     private ListView list_view;
+    private User user;
     private ArrayList<Classroom> classrooms_list;
-    private ClassroomsListAdapter adapter;
+    private ClassroomsListAdapter classrooms_adapter;
     private boolean list_clicked = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Gson gson = new Gson();
+        user = gson.fromJson(getArguments().getString("User", ""), User.class);
+
+//        if(user == null) {
+//            Toast.makeText(getContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show();
+//            getActivity().getSupportFragmentManager().popBackStack();
+//        }
+
         classrooms_list = new ArrayList<>();
 
-        new AsyncHttp().get(URLs.GET_ALL_CLASSROOMS, null, new AsyncResultsCallbackInterface() {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("user_id", user.getId() + "");
+
+        new AsyncHttp().get(URLs.GET_MY_CLASSROOMS, parameters, new AsyncResultsCallbackInterface() {
             @Override
             public void onSuccess(String json_string) {
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode root_node = null;
                 try {
-                    root_node = mapper.readTree(json_string);
+                    root_node = mapper.readTree(json_string).get("my_classrooms");
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
 
                 for (int i = 0; i < root_node.size(); i++) {
                     JsonNode json_node = root_node.get(i);
-                    //TODO
-//                    classrooms_list.add(
-//                        new Classroom(
-//                            json_node.get("id").asText(),
-//                            json_node.get("classroom_token").asText(),
-//                            json_node.get("subject_name").asText().toUpperCase(),
-//                            json_node.get("subject_professor").asText().toUpperCase(),
-//                            json_node.get("datetime").asText(),
-//                            json_node.get("type_text").asText()
-//                        )
-//                    );
+                    classrooms_list.add(new Classroom(
+                            json_node.get("id").asInt(),
+                            json_node.get("creator").asInt(),
+                            json_node.get("token").asText(),
+                            json_node.get("subject").get("name").asText(),
+                            json_node.get("subject").get("professor").asText(),
+                            json_node.get("datetime").asText(),
+                            json_node.get("type").asText())
+                    );
                 }
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyDataSetChanged();
+                        classrooms_adapter.notifyDataSetChanged();
                     }
                 });
             }
 
             @Override
-            public void onFailure(Throwable t) {
-
+            public void onFailure() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -85,13 +104,11 @@ public class AllClassroomsFragment extends Fragment implements AdapterView.OnIte
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.all_classrooms_fragment, container, false);
 
+        classrooms_adapter = new ClassroomsListAdapter(classrooms_list, getContext());
+
         list_view = (ListView)view.findViewById(R.id.listview_all_classrooms);
         list_view.setOnItemClickListener(this);
-
-        //adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, R.id.custom_list_item, list_classrooms);
-        adapter = new ClassroomsListAdapter(classrooms_list, getContext());
-
-        list_view.setAdapter(adapter);
+        list_view.setAdapter(classrooms_adapter);
 
         return view;
     }
@@ -104,14 +121,14 @@ public class AllClassroomsFragment extends Fragment implements AdapterView.OnIte
 
             final Classroom classroom_info = classrooms_list.get(position);
 
-            new AsyncHttp().get(URLs.GET_ALL_CLASSROOMS, null, new AsyncResultsCallbackInterface() {
+            new AsyncHttp().get(URLs.GET_MY_CLASSROOMS, null, new AsyncResultsCallbackInterface() {
                 @Override
                 public void onSuccess(String json_string) {
 
                 }
 
                 @Override
-                public void onFailure(Throwable t) {
+                public void onFailure() {
 
                 }
             });
@@ -121,7 +138,7 @@ public class AllClassroomsFragment extends Fragment implements AdapterView.OnIte
                 public void taskResultsObject(Object results) {
                     String results_str = (String) results;
                     if (results_str.length() <= 2) {
-                        Toast.makeText(getContext(), "Δεν βρέθηκε το τμήμα.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Δεν βρέθηκε το τμήμα", Toast.LENGTH_SHORT).show();
                     }else{
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                         SharedPreferences.Editor editor = preferences.edit();
