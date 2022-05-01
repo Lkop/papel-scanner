@@ -1,6 +1,5 @@
 package com.lkop.qr_scanner.ui.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +8,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
@@ -35,8 +34,9 @@ import com.lkop.qr_scanner.network.AsyncResults;
 import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
 import com.lkop.qr_scanner.network.AsyncVerifyVersion;
 import com.lkop.qr_scanner.receivers.ConnectionChangeTrigger;
+import com.lkop.qr_scanner.ui.fragments.CreateClassroomFragment;
 import com.lkop.qr_scanner.ui.fragments.LoginFragment;
-import com.lkop.qr_scanner.ui.fragments.RearScannerFragment;
+import com.lkop.qr_scanner.ui.fragments.MyClassroomsFragment;
 import com.lkop.qr_scanner.ui.fragments.ScannerFragment;
 import com.lkop.qr_scanner.ui.fragments.UpdateMessageFragment;
 import java.util.HashMap;
@@ -48,27 +48,23 @@ public class MainMenuActivity extends AppCompatActivity {
     public static boolean IS_ONLINE = false;
     private Context context = this;
     private SharedPreferences preferences;
-    private LinearLayout scan_class_layout;
-    private ImageButton scan_class_button;
-    private Button create_classroom_btn, all_classrooms_btn;
+    private LinearLayout scan_classroom_layout, my_classrooms_layout, create_classroom_layout;
+    private ImageButton scan_classroom_imagebutton, my_classrooms_imagebutton, create_classroom_imagebutton;
     private TextView center_textview;
-    private final Activity activity = this;
-    private int scan_type;
     private AsyncVerifyVersion checkForUpdates = null;
     private UpdateMessageFragment UpdateMessageFragment;
     private RelativeLayout footer_layout;
-    int a=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.container_main_menu_activity, new RearScannerFragment());
-        transaction.addToBackStack(null);
-        transaction.commit();
+//todo
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.add(R.id.container_main_menu_activity, new RearScannerFragment());
+//        transaction.addToBackStack(null);
+//        transaction.commit();
 
 
 
@@ -131,13 +127,11 @@ public class MainMenuActivity extends AppCompatActivity {
 
         //checkEverySecond();
 
-        scan_class_layout = (LinearLayout) findViewById(R.id.scan_class_layout_mainmenu_activity);
-        scan_class_layout.setOnClickListener(new View.OnClickListener() {
+        scan_classroom_layout = (LinearLayout) findViewById(R.id.scan_classroom_layout_mainmenu_activity);
+        scan_classroom_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scan_type = 1;
                 ScannerFragment fragment = new ScannerFragment("Σκανάρετε το QR του τμήματος");
-
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.container_main_menu_activity, fragment);
@@ -150,81 +144,32 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        scan_class_button = (ImageButton) findViewById(R.id.scan_class_button_mainmenu_activity);
-//        scan_class_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                scan_type = 1;
-//                startScanner("Σκανάρετε το QR του τμήματος");
-////                FragmentManager manager = getSupportFragmentManager();
-////                FragmentTransaction transaction = manager.beginTransaction();
-////                transaction.add(R.id.container_scan_classroom, BlankFragment.class, null);
-////                transaction.addToBackStack(null);
-////                transaction.commit();
-//            }
-//        });
-
-//        scan_match_btn = (Button) findViewById(R.id.scan_match_pass_id_btn);
-//        scan_match_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//
-//                scan_type = 2;
-//                startScanner("Σκανάρετε το QR στην πίσω όψη από το πάσο");
-//            }
-//        });
-
-        all_classrooms_btn = (Button)findViewById(R.id.all_classrooms_btn);
-        all_classrooms_btn.setOnClickListener(new View.OnClickListener() {
+        my_classrooms_layout = (LinearLayout) findViewById(R.id.my_classrooms_layout_mainmenu_activity);
+        my_classrooms_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                LoginFragment FragmentLogin = new LoginFragment();
-
                 Bundle bundle = new Bundle();
-                bundle.putString("next_fragment_name", "FragmentAllClassrooms");
-
-                //Passing parameters to fragment
-                FragmentLogin.setArguments(bundle);
-
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.container_main_menu_activity, FragmentLogin);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                bundle.putString("next_fragment_listener", "my_classrooms_login_response");
+                LoginFragment login_fragment = new LoginFragment();
+                login_fragment.setArguments(bundle);
+                openFragment(login_fragment);
             }
         });
 
-        create_classroom_btn = (Button)findViewById(R.id.create_classroom_btn);
-        create_classroom_btn.setOnClickListener(new View.OnClickListener() {
+        create_classroom_layout = (LinearLayout) findViewById(R.id.create_classroom_layout_mainmenu_activity);
+        create_classroom_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                LoginFragment FragmentLogin = new LoginFragment();
-
                 Bundle bundle = new Bundle();
-                bundle.putString("next_fragment_name", "FragmentCreateClassroom");
-
-                //Passing parameters to fragment
-                FragmentLogin.setArguments(bundle);
-
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.container_main_menu_activity, FragmentLogin);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                bundle.putString("next_fragment_listener", "create_classroom_login_response");
+                LoginFragment login_fragment = new LoginFragment();
+                login_fragment.setArguments(bundle);
+                openFragment(login_fragment);
             }
         });
 
         new AsyncGetMinVersion().run();
-//        BlankFragment newFragment = new BlankFragment();
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        // Replace whatever is in the fragment_container view with this fragment,
-//        // and add the transaction to the back stack so the user can navigate back
-//        transaction.add(R.id.container_scan_classroom, newFragment);
-//        transaction.addToBackStack(null);
-//
-//        // Commit the transaction
-//        //transaction.commit();
+
 
         getSupportFragmentManager().setFragmentResultListener("qr_scanner_response", this, new FragmentResultListener() {
             @Override
@@ -235,6 +180,25 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
+        getSupportFragmentManager().setFragmentResultListener("my_classrooms_login_response", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                getSupportFragmentManager().popBackStack();
+                MyClassroomsFragment fragment = new MyClassroomsFragment();
+                fragment.setArguments(bundle);
+                openFragment(fragment);
+            }
+        });
+
+        getSupportFragmentManager().setFragmentResultListener("create_classroom_login_response", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                getSupportFragmentManager().popBackStack();
+                CreateClassroomFragment fragment = new CreateClassroomFragment();
+                fragment.setArguments(bundle);
+                openFragment(fragment);
+            }
+        });
     }
 
     @Override
@@ -316,73 +280,6 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-//    private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(), result -> {
-//        scan_class_button.setEnabled(false);
-//        //scan_class_btn.setText("Φορτωση...");
-//        scan_class_button.setBackgroundColor(Color.parseColor("#D3D3D3"));
-//
-//        if(result != null){
-//            if(result.getContents() == null){
-//                //Reset to default
-//                scan_class_button.setEnabled(true);
-//                //scan_class_btn.setText("Σκαναρετε τμημα");
-//                scan_class_button.setBackgroundColor(Color.parseColor("#4dc3ff"));
-//            }else{
-//                if(scan_type == 1) {
-//                    final String classroom_token = result.getContents();
-//                    new AsyncSearchClassroom(classroom_token, new AsyncResults() {
-//                        @Override
-//                        public void taskResultsObject(Object results) {
-//                            String results_str = (String) results;
-//                            if (results_str.length() <= 2) {
-//                                Toast.makeText(context, "Δεν βρέθηκε το τμήμα.", Toast.LENGTH_SHORT).show();
-//                                //Reset to default
-//                                scan_class_button.setEnabled(true);
-//                                //scan_class_btn.setText("Σκαναρετε τμημα");
-//                                scan_class_button.setBackgroundColor(Color.parseColor("#4dc3ff"));
-//                            } else {
-//                                String classroom_id = "";
-//                                String classroom_subject_name = "";
-//                                String classroom_subject_prof = "";
-//                                try {
-//                                    JSONObject j_obj = new JSONObject((String) results);
-//                                    JSONArray jsonArray = j_obj.getJSONArray("classroom_info");
-//                                    JSONObject obj = jsonArray.getJSONObject(0);
-//
-//                                    classroom_id = obj.getString("classroom_id");
-//                                    classroom_subject_name = obj.getString("classroom_subject_name");
-//                                    classroom_subject_prof = obj.getString("classroom_subject_prof");
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-//                                SharedPreferences.Editor editor = preferences.edit();
-//
-//                                editor.putString("classroom_id", classroom_id);
-//                                editor.putString("classroom_token", classroom_token);
-//                                editor.putString("classroom_subject_name", classroom_subject_name);
-//                                editor.putString("classroom_subject_prof", classroom_subject_prof);
-//                                editor.putInt("classroom_timer", 10*60*1000);
-//                                editor.apply();
-//
-//                                Intent intent = new Intent(context, ClassroomActivity.class);
-//                                context.startActivity(intent);
-//
-//                                Activity ac = (Activity) context;
-//                                ac.finish();
-//                            }
-//                        }
-//                    }).execute();
-//                }else if(scan_type == 2){
-//                    final String pass_id = result.getContents();
-//                    Intent intent = new Intent(context, ScanOCRActivity.class);
-//                    intent.putExtra("pass_id_arg", pass_id);
-//                    startActivity(intent);
-//                }
-//            }
-//        }
-//    });
-
     public void openClassroomActivity(String classroom_token) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("token", classroom_token);
@@ -422,10 +319,17 @@ public class MainMenuActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure() {
                 Toast.makeText(context, "Δεν βρέθηκε το τμήμα.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.container_main_menu_activity, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public String getSavedClassroom() {
@@ -459,16 +363,16 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void showButtons(){
-        scan_class_button.setVisibility(View.VISIBLE);
-        create_classroom_btn.setVisibility(View.VISIBLE);
-        all_classrooms_btn.setVisibility(View.VISIBLE);
+//        scan_classroom_imagebutton.setVisibility(View.VISIBLE);
+//        create_classroom_imagebutton.setVisibility(View.VISIBLE);
+//        all_classrooms_imagebutton.setVisibility(View.VISIBLE);
         center_textview.setVisibility(View.GONE);
     }
 
     public void hideButtons(){
-        scan_class_button.setVisibility(View.GONE);
-        create_classroom_btn.setVisibility(View.GONE);
-        all_classrooms_btn.setVisibility(View.GONE);
+//        scan_classroom_imagebutton.setVisibility(View.GONE);
+//        create_classroom_imagebutton.setVisibility(View.GONE);
+//        all_classrooms_imagebutton.setVisibility(View.GONE);
         center_textview.setVisibility(View.VISIBLE);
     }
 
