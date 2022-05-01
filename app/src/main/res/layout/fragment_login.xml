@@ -100,7 +100,7 @@
                     android:textAlignment="inherit" />
 
                 <TextView
-                    android:id="@+id/message_box"
+                    android:id="@+id/error_message_textview_login_fragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#dc3545"
