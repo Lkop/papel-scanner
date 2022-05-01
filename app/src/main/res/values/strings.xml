@@ -21,7 +21,10 @@
     <string name="change_classroom">Αλλαγή</string>
     <string name="add_in_classroom">Προσθήκη Φοιτητή</string>
     <string name="developer">Λουκάς Κοπανιάς</string>
+
     <string name="scan_classroom_text">Σκανάρετε τμήμα</string>
+    <string name="all_classrooms_text">Τα τμήματά μου</string>
+    <string name="create_classroom_text">Φτιάξτε ένα τμήμα</string>
 
     <string name="login_button_text">Είσοδος</string>
     <string name="login_button_text_caps">ΕΙΣΟΔΟΣ</string>
