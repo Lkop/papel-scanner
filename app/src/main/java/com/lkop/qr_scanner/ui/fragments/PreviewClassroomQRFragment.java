@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
-
 import com.example.lkop.qr_scanner.R;
 import com.lkop.qr_scanner.constants.URLs;
 import com.squareup.picasso.Callback;
@@ -21,7 +19,7 @@ public class PreviewClassroomQRFragment extends Fragment {
     private ImageView qr_preview_imageview;
 
     public PreviewClassroomQRFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -35,7 +33,14 @@ public class PreviewClassroomQRFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_preview_classroom_qr, container, false);
-        qr_preview_imageview = (ImageView)view.findViewById(R.id.qr_preview_imageview);
+
+        qr_preview_imageview = (ImageView)view.findViewById(R.id.qr_preview_imageview_preview_fragment);
+        qr_preview_imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
 
         Picasso.get().load(URLs.EXTERNAL_GET_QR+"?size=900x900&data="+classroom_token).into(qr_preview_imageview, new Callback() {
             @Override
