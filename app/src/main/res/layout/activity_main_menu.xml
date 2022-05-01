@@ -27,7 +27,7 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PAPEL ID Scanner"
+                android:text="@string/app_name"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -69,27 +69,27 @@
             android:gravity="center">
 
             <LinearLayout
-                android:id="@+id/scan_class_layout_mainmenu_activity"
+                android:id="@+id/scan_classroom_layout_mainmenu_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="6dp"
                 android:background="@drawable/round_10dp_border_1dp"
+                android:gravity="center"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:padding="6dp">
 
                 <ImageButton
-                    android:id="@+id/scan_class_button_mainmenu_activity"
+                    android:id="@+id/scan_classroom_imagebutton_mainmenu_activity"
                     android:layout_width="128dp"
                     android:layout_height="128dp"
                     android:background="@drawable/qr_code_128"
-                    android:textColor="@android:color/black"
-                    android:clickable="false"/>
+                    android:clickable="false"
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="6dp"
                     android:fontFamily="sans-serif"
+                    android:paddingTop="6dp"
                     android:text="@string/scan_classroom_text"
                     android:textColor="@color/light_gray_text" />
 
@@ -110,33 +110,63 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/middle_separator"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/all_classrooms_btn"
-                android:layout_width="200dp"
+            <LinearLayout
+                android:id="@+id/my_classrooms_layout_mainmenu_activity"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:background="#eea236"
-                android:paddingLeft="10sp"
-                android:paddingRight="10sp"
-                android:text="@string/all_classrooms_btn_text"
-                android:textAllCaps="true"
-                android:textColor="@android:color/background_light"
-                android:visibility="visible" />
+                android:layout_marginRight="20dp"
+                android:background="@drawable/round_10dp_border_1dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="6dp">
 
-            <Button
-                android:id="@+id/create_classroom_btn"
-                android:layout_width="200dp"
+                <ImageButton
+                    android:id="@+id/all_classrooms_imagebutton_mainmenu_activity"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:background="@drawable/all_classrooms_128"
+                    android:clickable="false"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:paddingTop="6dp"
+                    android:text="@string/all_classrooms_text"
+                    android:textColor="@color/light_gray_text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/create_classroom_layout_mainmenu_activity"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#eea236"
-                android:paddingLeft="10sp"
-                android:paddingRight="10sp"
-                android:text="@string/create_classroom_btn_text"
-                android:textAllCaps="true"
-                android:textColor="@android:color/background_light"
-                android:visibility="visible" />
+                android:background="@drawable/round_10dp_border_1dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <ImageButton
+                    android:id="@+id/create_classroom_imagebutton_mainmenu_activity"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:background="@drawable/create_classrom_128"
+                    android:clickable="false"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:paddingTop="6dp"
+                    android:text="@string/create_classroom_text"
+                    android:textColor="@color/light_gray_text" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
