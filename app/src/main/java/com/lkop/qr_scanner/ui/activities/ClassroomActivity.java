@@ -47,7 +47,7 @@ public class ClassroomActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private Classroom classroom;
     private ArrayList<Student> students_list;
-    private Button change_classroom_btn, add_student_btn;
+    private Button change_classroom_button, add_student_btn;
     private int classroom_timer;
     private CountDownTimer changeClassroomTimer;
     private ObjectMapper mapper = new ObjectMapper();
@@ -91,8 +91,8 @@ public class ClassroomActivity extends AppCompatActivity {
             }
         });
 
-        change_classroom_btn = (Button) findViewById(R.id.change_classroom);
-        change_classroom_btn.setOnClickListener(new View.OnClickListener() {
+        change_classroom_button = (Button) findViewById(R.id.change_classroom_button);
+        change_classroom_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showChangeClassroomAlertDialog();
@@ -160,7 +160,7 @@ public class ClassroomActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure() {
 
             }
         });
@@ -232,7 +232,7 @@ public class ClassroomActivity extends AppCompatActivity {
         };
 
         //Show Alert Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Αλλαγή τμήματος;")
                 .setPositiveButton("Ναι", dialogClickListener)
                 .setNegativeButton("Όχι", dialogClickListener)
@@ -298,7 +298,7 @@ public class ClassroomActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure() {
                 Toast.makeText(getApplicationContext(), "Δεν βρέθηκε το τμήμα", Toast.LENGTH_SHORT).show();
             }
         });
@@ -420,7 +420,7 @@ public class ClassroomActivity extends AppCompatActivity {
     private CountDownTimer assignClassroomTimer(int millis) {
         return new CountDownTimer(millis, 1000) {
             public void onTick(long millisUntilFinished) {
-                change_classroom_btn.setText("Αλλαγή\n" + millisUntilFinished / 1000);
+                change_classroom_button.setText("Αλλαγή\n" + millisUntilFinished / 1000);
                 preferences.edit().putInt("classroom_timer", (int) millisUntilFinished).commit();
             }
             public void onFinish() {
@@ -437,13 +437,10 @@ public class ClassroomActivity extends AppCompatActivity {
         editor.putInt("classroom_timer", 0);
 
         if (editor.commit()) {
-            Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-            getApplicationContext().startActivity(intent);
-
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            startActivity(intent);
             changeClassroomTimer.cancel();
-
-            Activity ac = (Activity) getApplicationContext();
-            ac.finish();
+            finish();
         }
     }
 
