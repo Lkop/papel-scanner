@@ -23,6 +23,8 @@
     <string name="developer">Λουκάς Κοπανιάς</string>
     <string name="scan_classroom_text">Σκανάρετε τμήμα</string>
 
+    <string name="login_button_text">Είσοδος</string>
+    <string name="login_button_text_caps">ΕΙΣΟΔΟΣ</string>
 
     <string-array name="subjects">
         <item>Array Item One</item>
