@@ -53,19 +53,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/qr_preview_imageview_classroom_activity"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/qr_code_blue_black_64" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="250dp"
                     android:layout_height="50dp"
-                    android:orientation="vertical"
                     android:gravity="center"
+                    android:orientation="vertical"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
 
@@ -73,35 +86,33 @@
                         android:id="@+id/current_classroom"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
-                        android:textColor="#000000"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:paddingTop="0dp"
+                        android:ellipsize="end"
                         android:maxLines="1"
-                        android:ellipsize="end"/>
+                        android:paddingTop="0dp"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/current_classroom_date"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
-                        android:textColor="#000000"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center"
+                        android:textColor="#000000" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center">
+                    android:gravity="right">
 
-                    <Button
-                        android:id="@+id/change_classroom_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:text="@string/change_classroom"
-                        android:background="#eea236"
-                        style="?android:attr/borderlessButtonStyle"/>
+                    <ImageButton
+                        android:id="@+id/exit_classroom_imagebutton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/exit_blue_64" />
 
                 </LinearLayout>
 
@@ -110,14 +121,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/people_64"/>
+                    android:src="@drawable/people_64" />
 
                 <RelativeLayout
                     android:layout_width="40dp"
@@ -128,9 +137,9 @@
                         android:id="@+id/students_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#000000"
                         android:text="0"
-                        android:textSize="20sp"/>
+                        android:textColor="#000000"
+                        android:textSize="20sp" />
 
                 </RelativeLayout>
 

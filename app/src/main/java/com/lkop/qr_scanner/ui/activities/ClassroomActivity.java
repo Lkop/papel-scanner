@@ -1,6 +1,5 @@
 package com.lkop.qr_scanner.ui.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,10 +8,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -20,7 +20,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
-
 import com.example.lkop.qr_scanner.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -34,7 +33,6 @@ import com.lkop.qr_scanner.network.AsyncHttp;
 import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
 import com.lkop.qr_scanner.ui.fragments.PreviewClassroomQRFragment;
 import com.lkop.qr_scanner.ui.fragments.ScannerFragment;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +45,9 @@ public class ClassroomActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private Classroom classroom;
     private ArrayList<Student> students_list;
-    private Button change_classroom_button, add_student_btn;
+    private ImageView qr_preview_imageview;
+    private ImageButton exit_classroom_imagebutton;
+    private Button add_student_btn;
     private int classroom_timer;
     private CountDownTimer changeClassroomTimer;
     private ObjectMapper mapper = new ObjectMapper();
@@ -84,15 +84,16 @@ public class ClassroomActivity extends AppCompatActivity {
 
         empty_message_textview = (TextView) findViewById(R.id.empty_message_textview);
 
-        subject_name_textview.setOnClickListener(new View.OnClickListener() {
+        qr_preview_imageview = (ImageView) findViewById(R.id.qr_preview_imageview_classroom_activity);
+        qr_preview_imageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                previewQR();
             }
         });
 
-        change_classroom_button = (Button) findViewById(R.id.change_classroom_button);
-        change_classroom_button.setOnClickListener(new View.OnClickListener() {
+        exit_classroom_imagebutton = (ImageButton) findViewById(R.id.exit_classroom_imagebutton);
+        exit_classroom_imagebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showChangeClassroomAlertDialog();
@@ -420,7 +421,7 @@ public class ClassroomActivity extends AppCompatActivity {
     private CountDownTimer assignClassroomTimer(int millis) {
         return new CountDownTimer(millis, 1000) {
             public void onTick(long millisUntilFinished) {
-                change_classroom_button.setText("Αλλαγή\n" + millisUntilFinished / 1000);
+                //exit_classroom_button.setText("Αλλαγή\n" + millisUntilFinished / 1000);
                 preferences.edit().putInt("classroom_timer", (int) millisUntilFinished).commit();
             }
             public void onFinish() {
