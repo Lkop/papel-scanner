@@ -15,13 +15,13 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory;
 import java.util.Collections;
 import java.util.List;
 
-public class ScannerFragment extends Fragment {
+public class QRScannerFragment extends Fragment {
 
     private View view;
     private DecoratedBarcodeView barcode_view;
     private String message;
 
-    public ScannerFragment(String message) {
+    public QRScannerFragment(String message) {
         this.message = message;
     }
 
