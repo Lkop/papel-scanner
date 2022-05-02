@@ -27,7 +27,7 @@ public class QRScannerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.scanner_fragment, container, false);
+        view = inflater.inflate(R.layout.qr_scanner_fragment, container, false);
         barcode_view = view.findViewById(R.id.scanner_area_scanner_fragment);
 
         barcode_view.setStatusText(message);

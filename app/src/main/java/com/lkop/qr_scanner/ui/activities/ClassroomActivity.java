@@ -31,8 +31,9 @@ import com.lkop.qr_scanner.models.Classroom;
 import com.lkop.qr_scanner.models.Student;
 import com.lkop.qr_scanner.network.AsyncHttp;
 import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
+import com.lkop.qr_scanner.ui.fragments.AddStudentFragment;
 import com.lkop.qr_scanner.ui.fragments.PreviewClassroomQRFragment;
-import com.lkop.qr_scanner.ui.fragments.ScannerFragment;
+import com.lkop.qr_scanner.ui.fragments.QRScannerFragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,18 +48,20 @@ public class ClassroomActivity extends AppCompatActivity {
     private ArrayList<Student> students_list;
     private ImageView qr_preview_imageview;
     private ImageButton exit_classroom_imagebutton;
-    private Button add_student_btn;
+    private Button add_student_button;
     private int classroom_timer;
     private CountDownTimer changeClassroomTimer;
     private ObjectMapper mapper = new ObjectMapper();
     private StudentsListAdapter students_adapter;
+    private Student student_to_add;
+    private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classroom);
         
-        Gson gson = new Gson();
+        gson = new Gson();
         classroom = gson.fromJson(getIntent().getStringExtra("ClassroomClass"), Classroom.class);
         if(classroom == null) {
             preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -100,11 +103,14 @@ public class ClassroomActivity extends AppCompatActivity {
             }
         });
 
-        add_student_btn = (Button) findViewById(R.id.add_in_classroom);
-        add_student_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startBarcodeScannerFragment("Σκανάρετε το QR από το πάσο");
+        add_student_button = (Button) findViewById(R.id.add_student_button_classroom_activity);
+        add_student_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startQRScannerFragment("Σκανάρετε το QR από το πάσο");
             }
         });
 
@@ -113,6 +119,14 @@ public class ClassroomActivity extends AppCompatActivity {
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
                 getSupportFragmentManager().popBackStack();
                 parseQR(bundle.getString("qr_text"));
+            }
+        });
+
+        getSupportFragmentManager().setFragmentResultListener("add_student_to_classroom_response", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                getSupportFragmentManager().popBackStack();
+                addStudentΤοClassroom();
             }
         });
     }
@@ -139,7 +153,7 @@ public class ClassroomActivity extends AppCompatActivity {
                 try {
                     root_node = mapper.readTree(json_string);
                 } catch(JsonProcessingException e) {
-                    Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
                     return;
                 }
 
@@ -224,7 +238,7 @@ public class ClassroomActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        resetClassroom();
+                        exitClassroom();
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         break;
@@ -270,37 +284,50 @@ public class ClassroomActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String json_string) {
                 ObjectMapper mapper = new ObjectMapper();
-                JsonNode root_node = null;
+                JsonNode root_node;
                 try {
-                    root_node = mapper.readTree(json_string);
+                    root_node = mapper.readTree(json_string).get("student");
                 } catch(JsonProcessingException e) {
-                    Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
                     return;
                 }
 
                 if (root_node.isNull() || root_node.isEmpty()) {
                     System.out.println("aaa");
+                    //todo open rear scanner
+                    return;
                 }
 
-                JsonNode json_node = root_node.get("student");
-                Student student = new Student(
-                        json_node.get("id").asInt(),
-                        json_node.get("name").asText(),
-                        json_node.get("lastname").asText(),
-                        json_node.get("am").asLong(),
-                        json_node.get("pass_id").asLong());
+                student_to_add = new Student(
+                        root_node.get("id").asInt(),
+                        root_node.get("name").asText(),
+                        root_node.get("lastname").asText(),
+                        root_node.get("am").asLong(),
+                        root_node.get("pass_id").asLong());
 
-                if (students_list.contains(student)) {
-                    Toast.makeText(getApplicationContext(), "Ο/H φοιτητής/τρια υπάρχει ήδη", Toast.LENGTH_SHORT).show();
+                if (students_list.contains(student_to_add)) {
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Ο/H φοιτητής/τρια υπάρχει ήδη", Toast.LENGTH_SHORT).show());
+                    return;
                 }
 
-                Gson gson = new Gson();
-                String student_json = gson.toJson(student);
+                String student_json = gson.toJson(student_to_add);
+
+                Bundle bdl = new Bundle();
+                bdl.putString("StudentClass", student_json);
+
+                AddStudentFragment add_student_fragment = new AddStudentFragment();
+                add_student_fragment.setArguments(bdl);
+
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.container_classroom_activity, add_student_fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
 
             @Override
             public void onFailure() {
-                Toast.makeText(getApplicationContext(), "Δεν βρέθηκε το τμήμα", Toast.LENGTH_SHORT).show();
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
             }
         });
 
@@ -403,6 +430,46 @@ public class ClassroomActivity extends AppCompatActivity {
 //        });
     }
 
+    public void addStudentΤοClassroom() {
+//        if (!what) {
+//            return;
+//        }
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("student_id", student_to_add.getId() + "");
+        parameters.put("classroom_token", classroom.getClassroomToken());
+
+        new AsyncHttp().post(URLs.POST_ADD_STUDENT_TO_CLASSROOM, parameters, new AsyncResultsCallbackInterface() {
+            @Override
+            public void onSuccess(String json_string) {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode root_node;
+                try {
+                    root_node = mapper.readTree(json_string);
+                } catch(JsonProcessingException e) {
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
+                    return;
+                }
+
+                int success = root_node.get("success").asInt();
+                if (success != 1) {
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
+                    return;
+                }
+                students_list.add(0, student_to_add);
+                runOnUiThread(() -> {
+                    students_adapter.clear();
+                    students_adapter.addAll(students_list);
+                    students_counter_textview.setText(students_list.size() + "");
+                });
+            }
+
+            @Override
+            public void onFailure() {
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
+            }
+        });
+    }
+
     private ArrayList<Student> createStudentsList(JsonNode students_node){
         ArrayList<Student> students_list = new ArrayList<>();
         for (JsonNode student_node : students_node) {
@@ -425,22 +492,21 @@ public class ClassroomActivity extends AppCompatActivity {
                 preferences.edit().putInt("classroom_timer", (int) millisUntilFinished).commit();
             }
             public void onFinish() {
-                resetClassroom();
+                exitClassroom();
                 Toast.makeText(getApplicationContext(), "Ο χρόνος παραμονής στο τμήμα έληξε", Toast.LENGTH_LONG).show();
             }
         };
     }
 
-    private void resetClassroom(){
-        //Clear saved classroom
+    private void exitClassroom(){
+        //changeClassroomTimer.cancel();
+
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("classroom_token", "");
-        editor.putInt("classroom_timer", 0);
+        editor.remove("ClassroomClass");
 
         if (editor.commit()) {
             Intent intent = new Intent(this, MainMenuActivity.class);
             startActivity(intent);
-            changeClassroomTimer.cancel();
             finish();
         }
     }
@@ -463,6 +529,6 @@ public class ClassroomActivity extends AppCompatActivity {
     }
 
     private void enableAddButton(){
-        runOnUiThread(() -> add_student_btn.setEnabled(true));
+        runOnUiThread(() -> add_student_button.setEnabled(true));
     }
 }

@@ -73,7 +73,7 @@
         android:background="@drawable/border_up">
 
         <Button
-            android:id="@+id/add_button_search_fragment"
+            android:id="@+id/add_button_add_student_fragment"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
