@@ -8,7 +8,7 @@
     android:background="@drawable/border_down">
 
     <TextView
-        android:id="@+id/custom_list_item_subject_name"
+        android:id="@+id/subject_name_textview_classroom_list_item"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
@@ -21,18 +21,29 @@
         android:singleLine="true"/>
 
     <TextView
-        android:id="@+id/custom_list_item_type"
+        android:id="@+id/type_textview_classroom_list_item"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:textSize="16sp"
         android:text="sample"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:id="@+id/description_textview_classroom_list_item"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:text="sample"
+        android:textStyle="italic"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:paddingBottom="10dp" />
 
     <TextView
-        android:id="@+id/custom_list_item_date"
+        android:id="@+id/datetime_textview_classroom_list_item"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"

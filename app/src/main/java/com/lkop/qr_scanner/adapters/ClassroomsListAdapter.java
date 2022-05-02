@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class ClassroomsListAdapter extends ArrayAdapter<Classroom> {
 
     public ClassroomsListAdapter(ArrayList<Classroom> classrooms, Context context) {
-        super(context, R.layout.custom_list_item, classrooms);
+        super(context, R.layout.classroom_list_item, classrooms);
     }
 
     @Override
@@ -22,14 +22,16 @@ public class ClassroomsListAdapter extends ArrayAdapter<Classroom> {
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convert_view == null) {
-            convert_view = LayoutInflater.from(getContext()).inflate(R.layout.custom_list_item, parent, false);
+            convert_view = LayoutInflater.from(getContext()).inflate(R.layout.classroom_list_item, parent, false);
         }
-        TextView subject_name_textview = (TextView) convert_view.findViewById(R.id.custom_list_item_subject_name);
-        TextView date_textview = (TextView) convert_view.findViewById(R.id.custom_list_item_date);
-        TextView type_textview = (TextView) convert_view.findViewById(R.id.custom_list_item_type);
+        TextView subject_name_textview = (TextView) convert_view.findViewById(R.id.subject_name_textview_classroom_list_item);
+        TextView description_name_textview = (TextView) convert_view.findViewById(R.id.description_textview_classroom_list_item);
+        TextView datetime_textview = (TextView) convert_view.findViewById(R.id.datetime_textview_classroom_list_item);
+        TextView type_textview = (TextView) convert_view.findViewById(R.id.type_textview_classroom_list_item);
 
         subject_name_textview.setText(classroom.getSubjectName());
-        date_textview.setText(classroom.getDate());
+        description_name_textview.setText(classroom.getDescription());
+        datetime_textview.setText(classroom.getDate());
         type_textview.setText(classroom.getType());
 
         return convert_view;
