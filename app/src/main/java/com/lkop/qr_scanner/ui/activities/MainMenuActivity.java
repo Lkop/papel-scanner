@@ -37,7 +37,7 @@ import com.lkop.qr_scanner.receivers.ConnectionChangeTrigger;
 import com.lkop.qr_scanner.ui.fragments.CreateClassroomFragment;
 import com.lkop.qr_scanner.ui.fragments.LoginFragment;
 import com.lkop.qr_scanner.ui.fragments.MyClassroomsFragment;
-import com.lkop.qr_scanner.ui.fragments.ScannerFragment;
+import com.lkop.qr_scanner.ui.fragments.QRScannerFragment;
 import com.lkop.qr_scanner.ui.fragments.UpdateMessageFragment;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +46,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
     static boolean IS_UPDATED = true;
     public static boolean IS_ONLINE = false;
-    private Context context = this;
     private SharedPreferences preferences;
     private LinearLayout scan_classroom_layout, my_classrooms_layout, create_classroom_layout;
     private ImageButton scan_classroom_imagebutton, my_classrooms_imagebutton, create_classroom_imagebutton;
@@ -54,11 +53,21 @@ public class MainMenuActivity extends AppCompatActivity {
     private AsyncVerifyVersion checkForUpdates = null;
     private UpdateMessageFragment UpdateMessageFragment;
     private RelativeLayout footer_layout;
+    private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        gson = new Gson();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (gson.fromJson(preferences.getString("ClassroomClass", ""), Classroom.class) != null) {
+            Intent intent = new Intent(this, ClassroomActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
 //todo
 //        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -117,13 +126,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
         center_textview = (TextView)findViewById(R.id.center_textview);
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (getSavedClassroom() != "") {
-            Intent intent = new Intent(context, ClassroomActivity.class);
-            startActivity(intent);
-            finish();
-        }
+
+
 
         //checkEverySecond();
 
@@ -131,7 +136,7 @@ public class MainMenuActivity extends AppCompatActivity {
         scan_classroom_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ScannerFragment fragment = new ScannerFragment("Σκανάρετε το QR του τμήματος");
+                QRScannerFragment fragment = new QRScannerFragment("Σκανάρετε το QR του τμήματος");
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.container_main_menu_activity, fragment);
@@ -292,7 +297,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 try {
                     root_node = mapper.readTree(json_string);
                 } catch(JsonProcessingException e) {
-                    Toast.makeText(context, "Δεν βρέθηκε το τμήμα.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Δεν βρέθηκε το τμήμα.", Toast.LENGTH_SHORT).show();
                 }
 
                 JsonNode json_node = root_node.get("classroom");
@@ -300,12 +305,12 @@ public class MainMenuActivity extends AppCompatActivity {
                     json_node.get("id").asInt(),
                     json_node.get("creator").asInt(),
                     json_node.get("token").asText(),
+                    json_node.get("description").asText(),
                     json_node.get("subject").get("name").asText().toUpperCase(),
                     json_node.get("subject").get("professor").asText().toUpperCase(),
                     json_node.get("datetime").asText(),
                     json_node.get("type").asText());
 
-                Gson gson = new Gson();
                 String classroom_json = gson.toJson(classroom);
 
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -313,14 +318,14 @@ public class MainMenuActivity extends AppCompatActivity {
                 editor.putString("ClassroomClass", classroom_json);
                 editor.apply();
 
-                Intent intent = new Intent(context, ClassroomActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ClassroomActivity.class);
                 intent.putExtra("ClassroomClass", classroom_json);
                 startActivity(intent);
             }
 
             @Override
             public void onFailure() {
-                Toast.makeText(context, "Δεν βρέθηκε το τμήμα.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Δεν βρέθηκε το τμήμα.", Toast.LENGTH_SHORT).show();
             }
         });
     }
