@@ -129,6 +129,14 @@ public class ClassroomActivity extends AppCompatActivity {
                 addStudentΤοClassroom();
             }
         });
+
+        getSupportFragmentManager().setFragmentResultListener("match_pass_id_response", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                getSupportFragmentManager().popBackStack();
+                matchPassId(bundle.getInt("am"), bundle.getInt("pass_id"));
+            }
+        });
     }
 
     //Because Activity is already opened we re-setting Activity's Intent
