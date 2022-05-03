@@ -22,9 +22,7 @@ import com.lkop.qr_scanner.constants.URLs;
 import com.lkop.qr_scanner.models.Classroom;
 import com.lkop.qr_scanner.models.User;
 import com.lkop.qr_scanner.network.AsyncHttp;
-import com.lkop.qr_scanner.network.AsyncResults;
 import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
-import com.lkop.qr_scanner.network.AsyncSearchClassroom;
 import com.lkop.qr_scanner.ui.activities.ClassroomActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,12 +42,11 @@ public class MyClassroomsFragment extends Fragment implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
 
         Gson gson = new Gson();
-        user = gson.fromJson(getArguments().getString("User", ""), User.class);
-
-//        if(user == null) {
-//            Toast.makeText(getContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show();
-//            getActivity().getSupportFragmentManager().popBackStack();
-//        }
+        user = gson.fromJson(getArguments().getString("UserClass", ""), User.class);
+        if(user == null) {
+            Toast.makeText(getContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show();
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
 
         classrooms_list = new ArrayList<>();
 
@@ -73,6 +70,7 @@ public class MyClassroomsFragment extends Fragment implements AdapterView.OnItem
                             json_node.get("id").asInt(),
                             json_node.get("creator").asInt(),
                             json_node.get("token").asText(),
+                            json_node.get("description").asText(),
                             json_node.get("subject").get("name").asText(),
                             json_node.get("subject").get("professor").asText(),
                             json_node.get("datetime").asText(),
@@ -102,7 +100,7 @@ public class MyClassroomsFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.all_classrooms_fragment, container, false);
+        view = inflater.inflate(R.layout.my_classrooms_fragment, container, false);
 
         classrooms_adapter = new ClassroomsListAdapter(classrooms_list, getContext());
 
@@ -116,48 +114,23 @@ public class MyClassroomsFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(!list_clicked) {
-            //Clicke only one time
+            //Click only one time
             list_clicked = true;
 
-            final Classroom classroom_info = classrooms_list.get(position);
+            Classroom classroom = classrooms_list.get(position);
 
-            new AsyncHttp().get(URLs.GET_MY_CLASSROOMS, null, new AsyncResultsCallbackInterface() {
-                @Override
-                public void onSuccess(String json_string) {
+            Gson gson = new Gson();
+            String classroom_json = gson.toJson(classroom);
 
-                }
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("ClassroomClass", classroom_json);
 
-                @Override
-                public void onFailure() {
-
-                }
-            });
-
-            new AsyncSearchClassroom(classroom_info.getClassroomToken(), new AsyncResults() {
-                @Override
-                public void taskResultsObject(Object results) {
-                    String results_str = (String) results;
-                    if (results_str.length() <= 2) {
-                        Toast.makeText(getContext(), "Δεν βρέθηκε το τμήμα", Toast.LENGTH_SHORT).show();
-                    }else{
-                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor = preferences.edit();
-
-                        editor.putString("classroom_id", classroom_info.getId()+"");
-                        editor.putString("classroom_token", classroom_info.getClassroomToken());
-                        editor.putString("classroom_subject_name", classroom_info.getSubjectName());
-                        editor.putString("classroom_subject_prof", classroom_info.getSubjectProfessor());
-                        editor.putInt("classroom_timer", 10 * 60 * 1000);
-                        editor.apply();
-
-                        Intent intent = new Intent(getContext(), ClassroomActivity.class);
-                        getContext().startActivity(intent);
-
-                        Activity ac = (Activity) getContext();
-                        ac.finish();
-                    }
-                }
-            }).execute();
+            if(editor.commit()) {
+                Intent intent = new Intent(getContext(), ClassroomActivity.class);
+                startActivity(intent);
+                ((Activity) getContext()).finish();
+            }
         }
     }
 }
