@@ -121,7 +121,7 @@ public class LoginFragment extends Fragment {
                                     String user_json = gson.toJson(user);
 
                                     Bundle bundle = new Bundle();
-                                    bundle.putString("User", user_json);
+                                    bundle.putString("UserClass", user_json);
 
                                     getParentFragmentManager().setFragmentResult(next_fragment_listener, bundle);
                                 }else{
