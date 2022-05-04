@@ -1,11 +1,15 @@
 package com.lkop.qr_scanner.ui.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -34,6 +38,8 @@ import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
 import com.lkop.qr_scanner.ui.fragments.AddStudentFragment;
 import com.lkop.qr_scanner.ui.fragments.PreviewClassroomQRFragment;
 import com.lkop.qr_scanner.ui.fragments.QRScannerFragment;
+import com.lkop.qr_scanner.ui.fragments.RearScannerFragment;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,7 +80,7 @@ public class ClassroomActivity extends AppCompatActivity {
         students_listview.setAdapter(students_adapter);
 
         //TODO
-        changeClassroomTimer = assignClassroomTimer(classroom.getTimer());
+        //changeClassroomTimer = assignClassroomTimer(classroom.getTimer());
 //        changeClassroomTimer.start();
 
         subject_name_textview = (TextView) findViewById(R.id.current_classroom);
@@ -103,9 +109,14 @@ public class ClassroomActivity extends AppCompatActivity {
             }
         });
 
+        Button test_scanner_button = (Button) findViewById(R.id.test_scanner_button_classroom_activity);
+        test_scanner_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startBarcodeScannerFragment("Σκανάρετε το QR από το πάσο");
+                startRearScannerFragment();
+            }
+        });
+        
         add_student_button = (Button) findViewById(R.id.add_student_button_classroom_activity);
         add_student_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +145,7 @@ public class ClassroomActivity extends AppCompatActivity {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
                 getSupportFragmentManager().popBackStack();
-                matchPassId(bundle.getInt("am"), bundle.getInt("pass_id"));
+                matchPassId(bundle.getString("am"), bundle.getString("pass_id"));
             }
         });
     }
@@ -184,9 +195,13 @@ public class ClassroomActivity extends AppCompatActivity {
 
             @Override
             public void onFailure() {
-
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
             }
         });
+
+
+
+
 
 //        String open_fragment = getIntent().getStringExtra("openFragment");
 //
@@ -261,9 +276,18 @@ public class ClassroomActivity extends AppCompatActivity {
                 .setNegativeButton("Όχι", dialogClickListener)
                 .show();
     }
+    
+    private void startRearScannerFragment() {
+        RearScannerFragment fragment = new RearScannerFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.container_classroom_activity, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
-    private void startBarcodeScannerFragment(String screen_msg){
-        ScannerFragment fragment = new ScannerFragment(screen_msg);
+    private void startQRScannerFragment(String screen_msg){
+        QRScannerFragment fragment = new QRScannerFragment(screen_msg);
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -274,15 +298,15 @@ public class ClassroomActivity extends AppCompatActivity {
         transaction.commitAllowingStateLoss();
     }
 
-    private void startFragment(Fragment fragment){
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
-
-        //commit() not working in this case see documentation
-        transaction.commitAllowingStateLoss();
-    }
+//    private void startFragment(Fragment fragment){
+//        FragmentManager manager = getSupportFragmentManager();
+//        FragmentTransaction transaction = manager.beginTransaction();
+//        transaction.replace(R.id.frame_container, fragment);
+//        transaction.addToBackStack(null);
+//
+//        //commit() not working in this case see documentation
+//        transaction.commitAllowingStateLoss();
+//    }
 
     private void parseQR(String qr_text) {
         Map<String, String> parameters = new HashMap<>();
@@ -294,18 +318,18 @@ public class ClassroomActivity extends AppCompatActivity {
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode root_node;
                 try {
-                    root_node = mapper.readTree(json_string).get("student");
+                    root_node = mapper.readTree(json_string);
                 } catch(JsonProcessingException e) {
                     runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
                     return;
                 }
 
                 if (root_node.isNull() || root_node.isEmpty()) {
-                    System.out.println("aaa");
-                    //todo open rear scanner
+                    startRearScannerFragment();
                     return;
                 }
 
+                root_node = root_node.get("student");
                 student_to_add = new Student(
                         root_node.get("id").asInt(),
                         root_node.get("name").asText(),
@@ -325,6 +349,7 @@ public class ClassroomActivity extends AppCompatActivity {
                 runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
             }
         });
+    }
 
     private void startAddStudentFragment() {
         String student_json = gson.toJson(student_to_add);
@@ -349,10 +374,7 @@ public class ClassroomActivity extends AppCompatActivity {
         }
     }
 
-    public void addStudentΤοClassroom() {
-//        if (!what) {
-//            return;
-//        }
+    private void addStudentΤοClassroom() {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("student_id", student_to_add.getId() + "");
         parameters.put("classroom_token", classroom.getClassroomToken());
@@ -375,10 +397,12 @@ public class ClassroomActivity extends AppCompatActivity {
                     return;
                 }
                 students_list.add(0, student_to_add);
+
                 runOnUiThread(() -> {
-                    students_adapter.clear();
-                    students_adapter.addAll(students_list);
                     students_counter_textview.setText(students_list.size() + "");
+                    empty_message_textview.setVisibility(View.GONE);
+//                    students_adapter.clear();
+//                    students_adapter.addAll(students_list);
                 });
             }
 
@@ -475,10 +499,6 @@ public class ClassroomActivity extends AppCompatActivity {
         transaction.add(R.id.container_classroom_activity, fragmentPreviewClassroomQR);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    private void notifyAdapter() {
-
     }
 
     private void enableAddButton(){
