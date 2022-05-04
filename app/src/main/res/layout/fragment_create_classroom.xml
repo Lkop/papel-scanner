@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,119 +7,237 @@
     android:clickable="true"
     android:focusable="true"
     android:background="#eff0f1"
-    android:id="@+id/fragment_create_classroom">
+    android:id="@+id/fragment_create_classroom"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/create_classroom_textview_text"
-            android:textSize="20sp"
-            android:textAlignment="center"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:textColor="#000000" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Μάθημα: "
-            android:textSize="20sp"
+            android:text="@string/create_classroom_textview_text"
             android:textAlignment="center"
-            android:layout_gravity="center_vertical"
-            android:textColor="#000000"/>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF">
-
-                <Spinner
-                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
-                    android:id="@+id/spinner_subjects"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
+            android:textColor="#000000"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:orientation="horizontal">
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Τύπος: "
-                android:textSize="20sp"
-                android:textAlignment="center"
                 android:layout_gravity="center_vertical"
-                android:textColor="#000000"/>
+                android:text="Μάθημα "
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp" />
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF">
+                android:gravity="right">
 
                 <Spinner
+                    android:id="@+id/spinner_subjects"
                     style="@style/Widget.AppCompat.DropDownItem.Spinner"
-                    android:id="@+id/spinner_types"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp" />
+                    android:layout_width="280dp"
+                    android:layout_height="40dp"
+                    android:background="#FFFFFF"
+                    android:dropDownWidth="280dp"
+                    android:dropDownHorizontalOffset="-20dp"
+                    android:spinnerMode="dropdown" />
 
             </RelativeLayout>
 
         </LinearLayout>
 
-
-        <EditText
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"/>
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Τύπος "
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <Spinner
+                    android:id="@+id/spinner_types"
+                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:layout_width="280dp"
+                    android:layout_height="40dp"
+                    android:background="#FFFFFF"
+                    android:dropDownWidth="280dp"
+                    android:dropDownVerticalOffset="-10dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Ημέρα "
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <Spinner
+                    android:id="@+id/spinner_types"
+                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:layout_width="280dp"
+                    android:layout_height="40dp"
+                    android:background="#FFFFFF"
+                    android:dropDownWidth="280dp"
+                    android:dropDownVerticalOffset="-10dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Ώρα "
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <Spinner
+                    android:id="@+id/spinner_types"
+                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:layout_width="280dp"
+                    android:layout_height="40dp"
+                    android:background="#FFFFFF"
+                    android:dropDownWidth="280dp"
+                    android:dropDownVerticalOffset="-10dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Περιγραφή"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="280dp"
+                    android:layout_height="150dp"
+                    android:background="#FFFFFF"
+                    android:gravity="top"
+                    android:inputType="text|textMultiLine"
+                    android:padding="10dp"
+                    android:textColor="#000000" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
-        android:id="@+id/buttons"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@drawable/border_up">
+        android:layout_height="match_parent"
+        android:gravity="center|bottom">
 
-        <Button
-            android:id="@+id/create_classroom_2"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/create_classroom_btn_text"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textAllCaps="true"
-            android:background="#4cae4c"
-            />
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_up"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/create_classroom_button_create_classroom_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="#4cae4c"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="@string/create_classroom_btn_text"
+                android:textAllCaps="true" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
