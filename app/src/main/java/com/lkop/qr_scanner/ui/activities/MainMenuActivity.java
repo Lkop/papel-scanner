@@ -297,7 +297,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 try {
                     root_node = mapper.readTree(json_string);
                 } catch(JsonProcessingException e) {
-                    Toast.makeText(getApplicationContext(), "Δεν βρέθηκε το τμήμα.", Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Δεν βρέθηκε το τμήμα", Toast.LENGTH_SHORT).show());
                 }
 
                 JsonNode json_node = root_node.get("classroom");
@@ -325,7 +325,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
             @Override
             public void onFailure() {
-                Toast.makeText(getApplicationContext(), "Δεν βρέθηκε το τμήμα.", Toast.LENGTH_SHORT).show();
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Δεν βρέθηκε το τμήμα", Toast.LENGTH_SHORT).show());
             }
         });
     }
