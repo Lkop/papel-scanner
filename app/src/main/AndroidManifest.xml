@@ -50,11 +50,6 @@
             android:name="com.lkop.qr_scanner.ui.activities.ClassroomActivity"
             android:screenOrientation="portrait"/>
 
-        <activity
-            android:label="@string/app_name"
-            android:name="com.lkop.qr_scanner.ui.activities.ScanOCRActivity"
-            android:screenOrientation="portrait"/>
-
     </application>
 
 </manifest>
