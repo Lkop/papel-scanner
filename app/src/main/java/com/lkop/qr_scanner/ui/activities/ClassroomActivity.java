@@ -317,20 +317,7 @@ public class ClassroomActivity extends AppCompatActivity {
                     runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Ο/H φοιτητής/τρια υπάρχει ήδη", Toast.LENGTH_SHORT).show());
                     return;
                 }
-
-                String student_json = gson.toJson(student_to_add);
-
-                Bundle bdl = new Bundle();
-                bdl.putString("StudentClass", student_json);
-
-                AddStudentFragment add_student_fragment = new AddStudentFragment();
-                add_student_fragment.setArguments(bdl);
-
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.container_classroom_activity, add_student_fragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                startAddStudentFragment();
             }
 
             @Override
@@ -339,103 +326,27 @@ public class ClassroomActivity extends AppCompatActivity {
             }
         });
 
-//        boolean isDigit = true;
-//        for (char c : result.getContents().toCharArray()) {
-//            if (!Character.isDigit(c)) {
-//                isDigit = false;
-//            }
-//        }
+    private void startAddStudentFragment() {
+        String student_json = gson.toJson(student_to_add);
 
-//        barcode_launcher = registerForActivityResult(new ScanContract(), result -> {
-//            if(result != null){
-//                if(result.getContents() == null){
-//                    Toast.makeText(this, "Ακύρωση", Toast.LENGTH_LONG).show();
-//                }else{
-//                    add_student_btn.setEnabled(false);
-//                    // qr_results.getResultsQR(result.getContents());
-//                    //fetch students in this classroom
-//
-//                    if(isDigit) {
-//                        new AsyncSearchStudent(result.getContents(), new AsyncResults() {
-//                            @Override
-//                            public void taskResultsObject(Object results) {
-//                                String results_str = (String)results;
-//                                if(results_str.length() == 2){
-//
-//                                    Intent intent = new Intent(getApplicationContext(), ScanOCRActivity.class);
-//                                    intent.putExtra("pass_id_arg", result.getContents());
-//                                    startActivity(intent);
-//                                }else {
-//                                    final Student student_data = new Student();
-//                                    String get_student_name = "";
-//                                    String get_student_lastname = "";
-//                                    String get_student_am = "";
-//                                    try {
-//                                        JSONObject jobj = new JSONObject((String) results);
-//                                        JSONArray jsonArray = jobj.getJSONArray("student_info");
-//                                        JSONObject obj = jsonArray.getJSONObject(0);
-//                                        //get_student_name = obj.getString("student_name");
-//                                        //get_student_lastname = obj.getString("student_lastname");
-//                                        get_student_am = obj.getString("student_am");
-//                                        student_data.setAM(get_student_am);
-//
-//                                        new AsyncSearchStudentFromUOP(get_student_am, new AsyncResults() {
-//                                            @Override
-//                                            public void taskResultsObject(Object results) {
-//                                                try {
-//                                                    JSONObject obj = new JSONObject((String) results);
-//                                                    student_data.setName(obj.getString("firstname"));
-//                                                    student_data.setLastname(obj.getString("lastname"));
-//
-//                                                } catch (JSONException e) {
-//                                                    e.printStackTrace();
-//                                                }
-//                                                boolean studentFound = false;
-//                                                if (students_list != null && !students_list.isEmpty()) {
-//                                                    for (Student sd : students_list) {
-//                                                        if (sd.getAM().equals(student_data.getAM())) {
-//                                                            studentFound = true;
-//                                                            break;
-//                                                        }
-//                                                    }
-//                                                }
-//                                                //if student is already in list
-//                                                if (studentFound) {
-//                                                    Toast.makeText(getApplicationContext(), "Ο/H φοιτητής/τρια υπάρχει ήδη.", Toast.LENGTH_SHORT).show();
-//                                                } else {
-//                                                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//                                                    // Vibrate for 500 milliseconds
-//                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                                                        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-//                                                    } else {
-//                                                        //deprecated in API 26
-//                                                        v.vibrate(500);
-//                                                    }
-//                                                    Fragment fr = new SearchStudentFragment();
-//                                                    Bundle bdl = new Bundle();
-//                                                    bdl.putString("name_arg", student_data.getName());
-//                                                    bdl.putString("lastname_arg", student_data.getLastname());
-//                                                    bdl.putString("am_arg", student_data.getAM());
-//                                                    bdl.putString("pass_id_arg", result.getContents());
-//                                                    fr.setArguments(bdl);
-//                                                    startFragment(fr);
-//                                                }
-//                                            }
-//                                        }).execute();
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                                //UI
-//                                enableAddButton();
-//                            }
-//                        }).execute();
-//                    }else{
-//                        Toast.makeText(this,"Σκανάρετε το πάσο.", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }
-//        });
+        Bundle bundle = new Bundle();
+        bundle.putString("StudentClass", student_json);
+
+        AddStudentFragment add_student_fragment = new AddStudentFragment();
+        add_student_fragment.setArguments(bundle);
+
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.container_classroom_activity, add_student_fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else{
+            vibrator.vibrate(100);
+        }
     }
 
     public void addStudentΤοClassroom() {
