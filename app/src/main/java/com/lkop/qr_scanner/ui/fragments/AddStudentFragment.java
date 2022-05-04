@@ -19,7 +19,7 @@ public class AddStudentFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.add_student_fragment, container, false);
+        view = inflater.inflate(R.layout.fragment_add_student, container, false);
 
         Gson gson = new Gson();
         student = gson.fromJson(getArguments().getString("StudentClass", ""), Student.class);

@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Papel ID Scanner"
+            android:text="@string/app_name"
             android:textSize="26sp">
         </TextView>
 

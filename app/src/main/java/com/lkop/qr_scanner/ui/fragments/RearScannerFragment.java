@@ -58,7 +58,7 @@ public class RearScannerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.rear_scanner_fragment, container, false);
+        view = inflater.inflate(R.layout.fragment_rear_scanner, container, false);
 
         camera_previewview = (PreviewView) view.findViewById(R.id.camera_previewview);
         camera_imageview = (ImageView) view.findViewById(R.id.camera_imageview);

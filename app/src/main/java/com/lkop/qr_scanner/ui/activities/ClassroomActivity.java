@@ -109,13 +109,13 @@ public class ClassroomActivity extends AppCompatActivity {
             }
         });
 
-        Button test_scanner_button = (Button) findViewById(R.id.test_scanner_button_classroom_activity);
-        test_scanner_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startRearScannerFragment();
-            }
-        });
+//        Button test_scanner_button = (Button) findViewById(R.id.test_scanner_button_classroom_activity);
+//        test_scanner_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startRearScannerFragment();
+//            }
+//        });
         
         add_student_button = (Button) findViewById(R.id.add_student_button_classroom_activity);
         add_student_button.setOnClickListener(new View.OnClickListener() {

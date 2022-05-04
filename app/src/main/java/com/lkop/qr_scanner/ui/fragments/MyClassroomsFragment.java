@@ -100,7 +100,7 @@ public class MyClassroomsFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.my_classrooms_fragment, container, false);
+        view = inflater.inflate(R.layout.fragment_my_classrooms, container, false);
 
         classrooms_adapter = new ClassroomsListAdapter(classrooms_list, getContext());
 
