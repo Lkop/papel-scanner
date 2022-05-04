@@ -27,23 +27,16 @@ public class AsyncHttp {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                callback.onFailure(e);
+                callback.onFailure();
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (!response.isSuccessful()){
+                    callback.onFailure();
+                    return;
+                }
                 callback.onSuccess(response.body().string());
-
-//                try (ResponseBody responseBody = response.body()) {
-//                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-//
-//                    Headers responseHeaders = response.headers();
-//                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
-//                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-//                    }
-//
-//                    System.out.println(responseBody.string());
-//                }
             }
         });
     }
@@ -69,7 +62,7 @@ public class AsyncHttp {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                callback.onFailure(e);
+                callback.onFailure();
             }
 
             @Override
