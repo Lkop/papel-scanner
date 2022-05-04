@@ -389,6 +389,40 @@ public class ClassroomActivity extends AppCompatActivity {
         });
     }
 
+    private void matchPassId(String am, String pass_id) {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("am", am + "");
+        parameters.put("pass_id", pass_id + "");
+
+        new AsyncHttp().post(URLs.POST_MATCH_PASS_ID, parameters, new AsyncResultsCallbackInterface() {
+            @Override
+            public void onSuccess(String json_string) {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode root_node;
+                try {
+                    root_node = mapper.readTree(json_string).get("student");
+                } catch(JsonProcessingException e) {
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
+                    return;
+                }
+
+                student_to_add = new Student(
+                        root_node.get("id").asInt(),
+                        root_node.get("name").asText(),
+                        root_node.get("lastname").asText(),
+                        root_node.get("am").asLong(),
+                        root_node.get("pass_id").asLong());
+
+                startAddStudentFragment();
+            }
+
+            @Override
+            public void onFailure() {
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show());
+            }
+        });
+    }
+
     private ArrayList<Student> createStudentsList(JsonNode students_node){
         ArrayList<Student> students_list = new ArrayList<>();
         for (JsonNode student_node : students_node) {
