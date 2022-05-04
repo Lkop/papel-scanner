@@ -1,10 +1,7 @@
 package com.lkop.qr_scanner.ui.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -28,11 +25,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.lkop.qr_scanner.constants.URLs;
 import com.lkop.qr_scanner.models.Classroom;
-import com.lkop.qr_scanner.network.AsyncGetMinVersion;
 import com.lkop.qr_scanner.network.AsyncHttp;
-import com.lkop.qr_scanner.network.AsyncResults;
 import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
-import com.lkop.qr_scanner.network.AsyncVerifyVersion;
 import com.lkop.qr_scanner.receivers.ConnectionChangeTrigger;
 import com.lkop.qr_scanner.ui.fragments.CreateClassroomFragment;
 import com.lkop.qr_scanner.ui.fragments.LoginFragment;
@@ -50,7 +44,7 @@ public class MainMenuActivity extends AppCompatActivity {
     private LinearLayout scan_classroom_layout, my_classrooms_layout, create_classroom_layout;
     private ImageButton scan_classroom_imagebutton, my_classrooms_imagebutton, create_classroom_imagebutton;
     private TextView center_textview;
-    private AsyncVerifyVersion checkForUpdates = null;
+    //private AsyncVerifyVersion checkForUpdates = null;
     private UpdateMessageFragment UpdateMessageFragment;
     private RelativeLayout footer_layout;
     private Gson gson;
@@ -173,9 +167,6 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        new AsyncGetMinVersion().run();
-
-
         getSupportFragmentManager().setFragmentResultListener("qr_scanner_response", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
@@ -254,31 +245,31 @@ public class MainMenuActivity extends AppCompatActivity {
         ha.postDelayed(new Runnable() {
             @Override
             public void run() {
-                isOnline();
+                //isOnline();
                 ha.postDelayed(this, 3000);
             }
         }, 0);
     }
 
-    public void isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(MainMenuActivity.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-
-        //AsyncVerifyVersion checkForUpdates = null;
-
-        if(netInfo != null && netInfo.isConnectedOrConnecting()) {
-
-            //IS_ONLINE = true;
-            checkForUpdates = assignUpdater();
-            checkForUpdates.execute();
-
-        } else {
-            if(checkForUpdates != null) {
-                checkForUpdates.cancel(true);
-            }
-            hideButtons();
-        }
-    }
+//    public void isOnline() {
+//        ConnectivityManager cm = (ConnectivityManager) getSystemService(MainMenuActivity.CONNECTIVITY_SERVICE);
+//        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+//
+//        //AsyncVerifyVersion checkForUpdates = null;
+//
+//        if(netInfo != null && netInfo.isConnectedOrConnecting()) {
+//
+//            //IS_ONLINE = true;
+//            checkForUpdates = assignUpdater();
+//            checkForUpdates.execute();
+//
+//        } else {
+//            if(checkForUpdates != null) {
+//                checkForUpdates.cancel(true);
+//            }
+//            hideButtons();
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -342,22 +333,22 @@ public class MainMenuActivity extends AppCompatActivity {
         return classroom_token;
     }
 
-    private AsyncVerifyVersion assignUpdater(){
-        return new AsyncVerifyVersion(new AsyncResults() {
-            @Override
-            public void taskResultsObject(Object results) {
-                IS_UPDATED = (boolean) results;
-                if(!IS_UPDATED){
-
-                    center_textview.setText(getString(R.string.TextView_center_older_version));
-                    hideButtons();
-                }else {
-                    showButtons();
-                    //checkEverySecond();
-                }
-            }
-        });
-    }
+//    private AsyncVerifyVersion assignUpdater(){
+//        return new AsyncVerifyVersion(new AsyncResults() {
+//            @Override
+//            public void taskResultsObject(Object results) {
+//                IS_UPDATED = (boolean) results;
+//                if(!IS_UPDATED){
+//
+//                    center_textview.setText(getString(R.string.TextView_center_older_version));
+//                    hideButtons();
+//                }else {
+//                    showButtons();
+//                    //checkEverySecond();
+//                }
+//            }
+//        });
+//    }
 
     public void showFooter(boolean state){
         if (state) {
