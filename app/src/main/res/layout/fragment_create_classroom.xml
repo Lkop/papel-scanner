@@ -122,14 +122,17 @@
                 android:layout_height="wrap_content"
                 android:gravity="right">
 
-                <Spinner
-                    android:id="@+id/spinner_types"
-                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                <TextView
+                    android:id="@+id/date_textview_create_classroom_fragment"
                     android:layout_width="280dp"
                     android:layout_height="40dp"
                     android:background="#FFFFFF"
-                    android:dropDownWidth="280dp"
-                    android:dropDownVerticalOffset="-10dp" />
+                    android:textColor="@color/GRAY"
+                    android:textSize="16sp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:gravity="center_vertical"
+                    android:text="Επιλέξτε Ημέρα"/>
 
             </RelativeLayout>
 
@@ -152,20 +155,22 @@
                 android:textColor="#000000"
                 android:textSize="20sp" />
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right">
 
-                <Spinner
-                    android:id="@+id/spinner_types"
-                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                <TextView
+                    android:id="@+id/time_textview_create_classroom_fragment"
                     android:layout_width="280dp"
                     android:layout_height="40dp"
                     android:background="#FFFFFF"
-                    android:dropDownWidth="280dp"
-                    android:dropDownVerticalOffset="-10dp" />
+                    android:textColor="@color/GRAY"
+                    android:textSize="16sp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:gravity="center_vertical"
+                    android:text="Επιλέξτε Ώρα" />
 
             </RelativeLayout>
 

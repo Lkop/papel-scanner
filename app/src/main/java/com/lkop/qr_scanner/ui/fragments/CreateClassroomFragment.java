@@ -1,26 +1,28 @@
 package com.lkop.qr_scanner.ui.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import com.example.lkop.qr_scanner.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lkop.qr_scanner.adapters.CustomSpinnerAdapter;
 import com.lkop.qr_scanner.constants.URLs;
+import com.lkop.qr_scanner.dialogs.DatePickerFragment;
+import com.lkop.qr_scanner.dialogs.TimePickerFragment;
 import com.lkop.qr_scanner.models.CustomSpinnerItem;
 import com.lkop.qr_scanner.network.AsyncHttp;
 import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CreateClassroomFragment extends Fragment implements View.OnClickListener {
 
@@ -102,16 +104,46 @@ public class CreateClassroomFragment extends Fragment implements View.OnClickLis
             ((TextView)parent.getChildAt(0)).setTextColor(Color.parseColor("#808080"));
         else
             ((TextView)parent.getChildAt(0)).setTextColor(Color.parseColor("#000000"));
+        TextView date_textview = (TextView) view.findViewById(R.id.date_textview_create_classroom_fragment);
+        date_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerFragment fragment = new DatePickerFragment();
+                fragment.show(getParentFragmentManager(), "date_picker");
+            }
+        });
 
         if(parent.getId() == R.id.spinner_subjects){
             tmp_subjects_id = list_subjects_id.get(position);
+        TextView time_textview = (TextView) view.findViewById(R.id.time_textview_create_classroom_fragment);
+        time_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerFragment fragment = new TimePickerFragment();
+                fragment.show(getParentFragmentManager(), "time_picker");
+            }
+        });
 
         }else if(parent.getId() == R.id.spinner_types){
             tmp_types_id = list_types_id.get(position);
         }
+        getParentFragmentManager().setFragmentResultListener("date_picker_response", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                date_textview.setTextColor(Color.BLACK);
+                date_textview.setText(result.getInt("day") + "." + result.getInt("month") + "." + result.getInt("year"));
+            }
+        });
 
         // On selecting a spinner item
         //String item = parent.getItemAtPosition(position).toString();
+        getParentFragmentManager().setFragmentResultListener("time_picker_response", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                time_textview.setTextColor(Color.BLACK);
+                time_textview.setText(result.getInt("hour")+"");
+            }
+        });
 
         //list_subjects_id.get(position);
 
