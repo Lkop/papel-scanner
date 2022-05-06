@@ -6,4 +6,7 @@
     <color name="my_color">#6c6c6c</color>
     <color name="cyan_title">#4dc3ff</color>
     <color name="light_gray_text">#B1BCBE</color>
+
+    <color name="WHITE">#FFFFFF</color>
+    <color name="BLACK">#000000</color>
 </resources>

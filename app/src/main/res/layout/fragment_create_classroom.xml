@@ -53,13 +53,11 @@
                 android:gravity="right">
 
                 <Spinner
-                    android:id="@+id/spinner_subjects"
-                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:id="@+id/subjects_spinner_create_classroom_fragment"
                     android:layout_width="280dp"
                     android:layout_height="40dp"
-                    android:background="#FFFFFF"
+                    android:background="@color/WHITE"
                     android:dropDownWidth="280dp"
-                    android:dropDownHorizontalOffset="-20dp"
                     android:spinnerMode="dropdown" />
 
             </RelativeLayout>
@@ -90,13 +88,12 @@
                 android:gravity="right">
 
                 <Spinner
-                    android:id="@+id/spinner_types"
-                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:id="@+id/types_spinner_create_classroom_fragment"
                     android:layout_width="280dp"
                     android:layout_height="40dp"
-                    android:background="#FFFFFF"
+                    android:background="@color/WHITE"
                     android:dropDownWidth="280dp"
-                    android:dropDownVerticalOffset="-10dp" />
+                    android:spinnerMode="dropdown" />
 
             </RelativeLayout>
 
