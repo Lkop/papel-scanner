@@ -1,51 +1,44 @@
 package com.lkop.qr_scanner.ui.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.fragment.app.Fragment;
 import com.example.lkop.qr_scanner.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lkop.qr_scanner.adapters.CustomSpinnerAdapter;
 import com.lkop.qr_scanner.constants.URLs;
-import com.lkop.qr_scanner.models.Classroom;
+import com.lkop.qr_scanner.models.CustomSpinnerItem;
 import com.lkop.qr_scanner.network.AsyncHttp;
 import com.lkop.qr_scanner.network.AsyncResultsCallbackInterface;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateClassroomFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class CreateClassroomFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private Button create_classroom_button;
-    private ArrayList<String> subjects_list, types_list;
-    private ArrayList<String> list_subjects_id, list_types_id;
-    private String tmp_subjects_id, tmp_types_id;
+    private CustomSpinnerAdapter subjects_adapter, types_adapter;
+    private ArrayList<CustomSpinnerItem> subjects_list, types_list;
     private String classroom_token = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        list_subjects_id = new ArrayList<>();
-        list_subjects_id.add("");
-
-        //create list and the default item
         subjects_list = new ArrayList<>();
-        subjects_list.add("Επιλέξτε Μάθημα");
+        subjects_list.add(new CustomSpinnerItem(-1, "Επιλέξτε Μάθημα"));
+
+        types_list = new ArrayList<>();
+        types_list.add(new CustomSpinnerItem(-1, "Επιλέξτε Τύπο"));
 
         new AsyncHttp().get(URLs.GET_SUBJECTS_AND_TYPES, null, new AsyncResultsCallbackInterface() {
             @Override
@@ -61,23 +54,18 @@ public class CreateClassroomFragment extends Fragment implements AdapterView.OnI
                 JsonNode subjects_node = root_node.get("subjects");
                 for (int i = 0; i < subjects_node.size(); i++) {
                     JsonNode json_node = subjects_node.get(i);
-                    json_node.get("id").asInt();
-                    subjects_list.add(json_node.get("name").asText());
-                    //json_node.get("token").asText();
-
+                    CustomSpinnerItem spinner_item = new CustomSpinnerItem(json_node.get("id").asInt(), json_node.get("name").asText());
+                    subjects_list.add(spinner_item);
                 }
+                requireActivity().runOnUiThread(() -> subjects_adapter.notifyDataSetChanged());
 
                 JsonNode subject_types_node = root_node.get("subject_types");
                 for (int i = 0; i < subject_types_node.size(); i++) {
                     JsonNode json_node = subject_types_node.get(i);
-                    json_node.get("id").asInt();
-                    types_list.add(json_node.get("type_text").asText());
-                    //json_node.get("token").asText();
-
+                    CustomSpinnerItem spinner_item = new CustomSpinnerItem(json_node.get("id").asInt(), json_node.get("type_text").asText());
+                    types_list.add(spinner_item);
                 }
-
-//                subjects_list.add(obj.getString("subject_name").toUpperCase());
-//                list_subjects_id.add(obj.getString("subject_id"));
+                requireActivity().runOnUiThread(() -> types_adapter.notifyDataSetChanged());
             }
 
             @Override
@@ -86,70 +74,23 @@ public class CreateClassroomFragment extends Fragment implements AdapterView.OnI
             }
         });
 
-        list_types_id = new ArrayList<>();
-        list_types_id.add("");
-
-        //create list and the default item
-        types_list = new ArrayList<>();
-        types_list.add("Επιλέξτε Τύπο");
-//todo
-//        new AsyncGetJSONFromURL(URLs.GET_SUBJECT_TYPES, null).run(new AsyncResults() {
-//            @Override
-//            public void taskResultsObject(Object results) {
-//
-//                JSONArray jsonArray = (JSONArray)results;
-//
-//                for (int i = 0; i < jsonArray.length(); i++) {
-//                    try {
-//                        JSONObject obj = jsonArray.getJSONObject(i);
-//                        list_types.add(obj.getString("type_text").toUpperCase());
-//                        list_types_id.add(obj.getString("type_id"));
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //initialize components
         view = inflater.inflate(R.layout.fragment_create_classroom, container, false);
 
-        //SUBJECTS - SUBJECTS - SUBJECTS - SUBJECTS - SUBJECTS - SUBJECTS
-        Spinner spinner_subjects = (Spinner)view.findViewById(R.id.spinner_subjects);
+        Spinner subjects_spinner = (Spinner)view.findViewById(R.id.subjects_spinner_create_classroom_fragment);
+        subjects_adapter = new CustomSpinnerAdapter(subjects_list, getContext());
+        subjects_spinner.setAdapter(subjects_adapter);
+//        subjects_spinner.setOnItemSelectedListener(this);
 
-        //event listener
-        spinner_subjects.setOnItemSelectedListener(this);
+        Spinner types_spinner = (Spinner)view.findViewById(R.id.types_spinner_create_classroom_fragment);
+        types_adapter = new CustomSpinnerAdapter(types_list, getContext());
+        types_spinner.setAdapter(types_adapter);
+//        types_spinner.setOnItemSelectedListener(this);
 
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), R.layout.custom_spinner, subjects_list);
-
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        spinner_subjects.setAdapter(dataAdapter);
-
-        //TYPES - TYPES - TYPES - TYPES - TYPES - TYPES - TYPES - TYPES - TYPES
-        Spinner spinner_types = (Spinner)view.findViewById(R.id.spinner_types);
-
-        //event listener
-        spinner_types.setOnItemSelectedListener(this);
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> arrayAdapter_types = new ArrayAdapter<>(getActivity(), R.layout.custom_spinner, types_list);
-
-        // Drop down layout style - list view with radio button
-        arrayAdapter_types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        spinner_types.setAdapter(arrayAdapter_types);
-
-        //Create Button Event
         create_classroom_button = (Button)view.findViewById(R.id.create_classroom_button_create_classroom_fragment);
-        //Button event listener
         create_classroom_button.setOnClickListener(this);
 
         return view;
