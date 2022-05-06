@@ -92,18 +92,6 @@ public class CreateClassroomFragment extends Fragment implements View.OnClickLis
         types_spinner.setAdapter(types_adapter);
 //        types_spinner.setOnItemSelectedListener(this);
 
-        create_classroom_button = (Button)view.findViewById(R.id.create_classroom_button_create_classroom_fragment);
-        create_classroom_button.setOnClickListener(this);
-
-        return view;
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position == 0)
-            ((TextView)parent.getChildAt(0)).setTextColor(Color.parseColor("#808080"));
-        else
-            ((TextView)parent.getChildAt(0)).setTextColor(Color.parseColor("#000000"));
         TextView date_textview = (TextView) view.findViewById(R.id.date_textview_create_classroom_fragment);
         date_textview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,8 +101,6 @@ public class CreateClassroomFragment extends Fragment implements View.OnClickLis
             }
         });
 
-        if(parent.getId() == R.id.spinner_subjects){
-            tmp_subjects_id = list_subjects_id.get(position);
         TextView time_textview = (TextView) view.findViewById(R.id.time_textview_create_classroom_fragment);
         time_textview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,9 +110,6 @@ public class CreateClassroomFragment extends Fragment implements View.OnClickLis
             }
         });
 
-        }else if(parent.getId() == R.id.spinner_types){
-            tmp_types_id = list_types_id.get(position);
-        }
         getParentFragmentManager().setFragmentResultListener("date_picker_response", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
@@ -135,8 +118,6 @@ public class CreateClassroomFragment extends Fragment implements View.OnClickLis
             }
         });
 
-        // On selecting a spinner item
-        //String item = parent.getItemAtPosition(position).toString();
         getParentFragmentManager().setFragmentResultListener("time_picker_response", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
@@ -145,17 +126,14 @@ public class CreateClassroomFragment extends Fragment implements View.OnClickLis
             }
         });
 
-        //list_subjects_id.get(position);
+        create_classroom_button = (Button)view.findViewById(R.id.create_classroom_button_create_classroom_fragment);
+        create_classroom_button.setOnClickListener(this);
 
-        // Showing selected spinner item
-        //Toast.makeText(parent.getContext(), "Selected: " + item +"  " +position+"    "+list_types_id.get(position), Toast.LENGTH_SHORT).show();
-
+        return view;
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent){
 
-    }
 
     @Override
     public void onClick(View view) {
@@ -253,6 +231,6 @@ public class CreateClassroomFragment extends Fragment implements View.OnClickLis
 //                    }
 //                });
         }
-    }
 
+    }
 }
